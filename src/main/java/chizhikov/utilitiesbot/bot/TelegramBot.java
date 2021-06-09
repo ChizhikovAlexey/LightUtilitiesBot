@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class TelegramBot extends TelegramLongPollingCommandBot {
@@ -46,8 +47,12 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
             sendMessage(chat, nonCommandHandler.process(chat, message.getText()));
         } catch (MessageProcessingException msgExc) {
             sendMessage(chat, msgExc.getMessage());
-            chats.updateState(chat, chatState);
-            sendMessage(chat, chatState.message);
+            if (msgExc.getCause() instanceof SQLException) {
+                chats.updateState(chat, ChatState.MAIN);
+            } else {
+                chats.updateState(chat, chatState);
+            }
+            sendMessage(chat, chats.getState(chat).message);
         }
     }
 
@@ -56,7 +61,7 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
             execute(SendMessage.builder().text(text).chatId(chat.getId().toString()).build());
         } catch (TelegramApiException exc) {
             //TODO: сделать логгирование
-            System.out.println("Error sending message to " + chat.getId().toString() + "!\n" + exc);
+            System.out.println("Error sending message to " + chat.getId().toString() + "!" + exc);
         }
     }
 }

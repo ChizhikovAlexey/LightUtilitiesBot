@@ -1,6 +1,7 @@
 package chizhikov.utilitiesbot.application;
 
 import chizhikov.utilitiesbot.database.MonthData;
+import chizhikov.utilitiesbot.database.Tariff;
 import chizhikov.utilitiesbot.database.dao.MonthDataDao;
 import chizhikov.utilitiesbot.database.dao.TariffDao;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,10 @@ public class DataManager {
 
     public void addMonthData (MonthData monthData) throws SQLException {
         monthDataDao.addMonthData(monthData);
+    }
+
+    public void addTariff (Tariff tariff) throws SQLException {
+        tariffDao.addTariff(tariff);
     }
 }
 

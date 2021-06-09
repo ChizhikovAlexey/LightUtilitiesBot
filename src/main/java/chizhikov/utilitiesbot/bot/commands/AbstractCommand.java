@@ -42,4 +42,13 @@ public abstract class AbstractCommand extends BotCommand {
             e.printStackTrace();
         }
     }
+
+    void sendWrongStateAnswer(AbsSender absSender, Chat chat) {
+        try {
+            String text = "Выполнение предыдущей команды не закончено. Используйте команду /cancel для её отмены и повторите ввод!";
+            absSender.execute(SendMessage.builder().text(text).chatId(chat.getId().toString()).build());
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
 }

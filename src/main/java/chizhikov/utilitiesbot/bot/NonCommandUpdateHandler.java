@@ -21,7 +21,7 @@ public class NonCommandUpdateHandler {
         try {
             return nonCommandMap.get(chats.getState(chat)).execute(chat, message);
         } catch (NullPointerException npe) {
-            throw new MessageProcessingException("Не найден обработчик команды для состояния " + chats.getState(chat) + "!" + npe, npe);
+            throw new MessageProcessingException("Не найден обработчик команды для состояния " + chats.getState(chat) + "!", npe);
         }
     }
 }

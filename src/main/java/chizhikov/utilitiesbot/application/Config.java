@@ -3,9 +3,13 @@ package chizhikov.utilitiesbot.application;
 import chizhikov.utilitiesbot.bot.NonCommandUpdateHandler;
 import chizhikov.utilitiesbot.bot.TelegramBot;
 import chizhikov.utilitiesbot.bot.commands.AddMonthDataCommand;
+import chizhikov.utilitiesbot.bot.commands.AddTariffCommand;
+import chizhikov.utilitiesbot.bot.commands.Cancel;
 import chizhikov.utilitiesbot.bot.commands.Start;
 import chizhikov.utilitiesbot.bot.noncommands.AbstractNonCommand;
 import chizhikov.utilitiesbot.bot.noncommands.AddMonthDataNonCommand;
+import chizhikov.utilitiesbot.bot.noncommands.AddTariffNonCommand;
+import chizhikov.utilitiesbot.bot.noncommands.MainNonCommand;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
 import chizhikov.utilitiesbot.database.dao.MonthDataDao;
@@ -27,7 +31,7 @@ import java.util.Map;
 public class Config {
     private final String JDBC_URL = System.getProperty("JDBC_URL");
     private final String BOT_TOKEN = System.getProperty("BOT_TOKEN");
-    private final String BOT_NAME = System.getProperty("BOT_NAME");
+    private final String BOT_USERNAME = System.getProperty("BOT_USERNAME");
 
     @Bean("MonthDataDao")
     MonthDataDao monthDataDao() {
@@ -42,8 +46,10 @@ public class Config {
     @Bean("ListOfCommands")
     public ArrayList<BotCommand> listOfCommands(Chats chats) {
         ArrayList<BotCommand> commands = new ArrayList<>();
-        commands.add(new Start("start", "Начало работы с ботом", chats));
-        commands.add(new AddMonthDataCommand("add_month_data", "Добавить данные за месяц", chats));
+        commands.add(new Start("start", "начало работы", chats));
+        commands.add(new AddMonthDataCommand("add_month_data", "добавить данные за месяц", chats));
+        commands.add(new AddTariffCommand("add_tariff", "добавить новый тариф", chats));
+        commands.add(new Cancel("cancel", "прервать обработку команды", chats));
         return commands;
     }
 
@@ -51,12 +57,24 @@ public class Config {
     public Map<ChatState, AbstractNonCommand> nonCommandMap(Chats chats, DataManager dataManager) {
         HashMap<ChatState, AbstractNonCommand> nonCommandsMap = new HashMap<>();
         AddMonthDataNonCommand addMonthDataNonCommand = new AddMonthDataNonCommand(chats, dataManager);
+        AddTariffNonCommand addTariffNonCommand = new AddTariffNonCommand(chats, dataManager);
+        MainNonCommand mainNonCommand = new MainNonCommand(chats, dataManager);
+
+        nonCommandsMap.put(ChatState.MAIN, mainNonCommand);
+
         nonCommandsMap.put(ChatState.ADD_MD_DATE, addMonthDataNonCommand);
         nonCommandsMap.put(ChatState.ADD_MD_ELECTRICITY, addMonthDataNonCommand);
         nonCommandsMap.put(ChatState.ADD_MD_HW_BATH, addMonthDataNonCommand);
         nonCommandsMap.put(ChatState.ADD_MD_CW_BATH, addMonthDataNonCommand);
         nonCommandsMap.put(ChatState.ADD_MD_HW_KITCHEN, addMonthDataNonCommand);
         nonCommandsMap.put(ChatState.ADD_MD_CW_KITCHEN, addMonthDataNonCommand);
+
+        nonCommandsMap.put(ChatState.ADD_T_DATE, addTariffNonCommand);
+        nonCommandsMap.put(ChatState.ADD_T_ELECTRICITY, addTariffNonCommand);
+        nonCommandsMap.put(ChatState.ADD_T_HW, addTariffNonCommand);
+        nonCommandsMap.put(ChatState.ADD_T_CW, addTariffNonCommand);
+        nonCommandsMap.put(ChatState.ADD_T_DRAINAGE, addTariffNonCommand);
+
         return nonCommandsMap;
     }
 
@@ -73,7 +91,7 @@ public class Config {
             Chats chats,
             NonCommandUpdateHandler nonCommandUpdateHandler) {
         return new TelegramBot(
-                BOT_NAME,
+                BOT_USERNAME,
                 BOT_TOKEN,
                 listOfCommands,
                 chats,

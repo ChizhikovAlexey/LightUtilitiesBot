@@ -30,5 +30,9 @@ public class DataManager {
     public Tariff getActualTariff() throws SQLException {
         return tariffDao.getTariffByDate(LocalDate.now());
     }
+
+    public MonthData getLastMonthData() throws SQLException {
+        return monthDataDao.getMonthDataByDate(LocalDate.now());
+    }
 }
 

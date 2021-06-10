@@ -81,14 +81,11 @@ public class MonthData {
 
     @Override
     public String toString() {
-        return "MonthData{" +
-                "id=" + id +
-                ", electricity=" + electricity +
-                ", hotWaterBath=" + hotWaterBath +
-                ", coldWaterBath=" + coldWaterBath +
-                ", hotWaterKitchen=" + hotWaterKitchen +
-                ", coldWaterKitchen=" + coldWaterKitchen +
-                ", date=" + date +
-                '}';
+        return "Данные от " + date + "\n" +
+                "Электроэнергия: " + electricity + "\n" +
+                "Горячая вода (санузел): " + hotWaterBath + "\n" +
+                "Холодная вода (санузел): " + coldWaterBath + "\n" +
+                "Горячая вода (кухня): " + hotWaterKitchen + "\n" +
+                "Холодная вода (кухня): " + coldWaterKitchen;
     }
 }

@@ -48,6 +48,8 @@ public class Config {
         commands.add(new AddTariffCommand("add_tariff", "добавить новый тариф", chats, dataManager));
         commands.add(new Cancel("cancel", "прервать обработку команды", chats, dataManager));
         commands.add(new GetActualTariffCommand("get_actual_tariff", "получить актуальный тариф", chats, dataManager));
+        commands.add(new GetActualMonthDataCommand("get_actual_month_data", "получить актуальные показания", chats, dataManager));
+
         return commands;
     }
 

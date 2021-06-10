@@ -1,5 +1,6 @@
 package chizhikov.utilitiesbot.bot.commands;
 
+import chizhikov.utilitiesbot.application.DataManager;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -8,8 +9,8 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 
 public class Cancel extends AbstractCommand {
 
-    public Cancel(String commandIdentifier, String description, Chats chats) {
-        super(commandIdentifier, description, chats);
+    public Cancel(String commandIdentifier, String description, Chats chats, DataManager dataManager) {
+        super(commandIdentifier, description, chats, dataManager);
     }
 
     @Override

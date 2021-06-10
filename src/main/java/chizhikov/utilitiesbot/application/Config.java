@@ -2,10 +2,7 @@ package chizhikov.utilitiesbot.application;
 
 import chizhikov.utilitiesbot.bot.NonCommandUpdateHandler;
 import chizhikov.utilitiesbot.bot.TelegramBot;
-import chizhikov.utilitiesbot.bot.commands.AddMonthDataCommand;
-import chizhikov.utilitiesbot.bot.commands.AddTariffCommand;
-import chizhikov.utilitiesbot.bot.commands.Cancel;
-import chizhikov.utilitiesbot.bot.commands.Start;
+import chizhikov.utilitiesbot.bot.commands.*;
 import chizhikov.utilitiesbot.bot.noncommands.AbstractNonCommand;
 import chizhikov.utilitiesbot.bot.noncommands.AddMonthDataNonCommand;
 import chizhikov.utilitiesbot.bot.noncommands.AddTariffNonCommand;
@@ -44,12 +41,13 @@ public class Config {
     }
 
     @Bean("ListOfCommands")
-    public ArrayList<BotCommand> listOfCommands(Chats chats) {
+    public ArrayList<BotCommand> listOfCommands(Chats chats, DataManager dataManager) {
         ArrayList<BotCommand> commands = new ArrayList<>();
-        commands.add(new Start("start", "начало работы", chats));
-        commands.add(new AddMonthDataCommand("add_month_data", "добавить данные за месяц", chats));
-        commands.add(new AddTariffCommand("add_tariff", "добавить новый тариф", chats));
-        commands.add(new Cancel("cancel", "прервать обработку команды", chats));
+        commands.add(new Start("start", "начало работы", chats, dataManager));
+        commands.add(new AddMonthDataCommand("add_month_data", "добавить данные за месяц", chats, dataManager));
+        commands.add(new AddTariffCommand("add_tariff", "добавить новый тариф", chats, dataManager));
+        commands.add(new Cancel("cancel", "прервать обработку команды", chats, dataManager));
+        commands.add(new GetActualTariffCommand("get_actual_tariff", "получить актуальный тариф", chats, dataManager));
         return commands;
     }
 

@@ -68,4 +68,13 @@ public class Tariff {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return "Тариф от " + date + "\n" +
+                "Электроэнергия: " + electricity + "\n" +
+                "Горячая вода: " + hotWater + "\n" +
+                "Холодная вода: " + coldWater + "\n" +
+                "Водоотведение: " + drainage;
+    }
 }

@@ -7,6 +7,7 @@ import chizhikov.utilitiesbot.database.dao.TariffDao;
 import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 @Component("DataManager")
 public class DataManager {
@@ -24,6 +25,10 @@ public class DataManager {
 
     public void addTariff (Tariff tariff) throws SQLException {
         tariffDao.addTariff(tariff);
+    }
+
+    public Tariff getActualTariff() throws SQLException {
+        return tariffDao.getTariffByDate(LocalDate.now());
     }
 }
 

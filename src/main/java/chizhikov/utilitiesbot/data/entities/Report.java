@@ -40,7 +40,7 @@ public class Report {
                         hotWaterBath + hotWaterKitchen, (hotWaterBath + hotWaterKitchen) * tariff.getHotWater(),
                         coldWaterBath + coldWaterKitchen, (coldWaterBath + coldWaterKitchen) * tariff.getColdWater(),
                         drainage, drainage * tariff.getDrainage(),
-                        electricity * tariff.getElectricity() + (hotWaterBath + hotWaterKitchen) * tariff.getHotWater() + (coldWaterBath + coldWaterKitchen) * tariff.getColdWater()
+                        electricity * tariff.getElectricity() + (hotWaterBath + hotWaterKitchen) * tariff.getHotWater() + (coldWaterBath + coldWaterKitchen) * tariff.getColdWater() + drainage * tariff.getDrainage()
                 );
     }
 }

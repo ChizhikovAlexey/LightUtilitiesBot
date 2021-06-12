@@ -10,7 +10,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 public class ApplicationStarter {
     public static void main(String[] args) {
-        Dotenv.configure().systemProperties().load();
+        Dotenv.configure().ignoreIfMissing().systemProperties().load();
         GenericApplicationContext ctx = new AnnotationConfigApplicationContext(Config.class);
         TelegramBot telegramBot = (TelegramBot) ctx.getBean("TelegramBot");
         try {

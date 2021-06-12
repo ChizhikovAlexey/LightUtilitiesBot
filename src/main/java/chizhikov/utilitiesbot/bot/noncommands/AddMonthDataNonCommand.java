@@ -1,10 +1,10 @@
 package chizhikov.utilitiesbot.bot.noncommands;
 
-import chizhikov.utilitiesbot.application.DataManager;
+import chizhikov.utilitiesbot.data.DataManager;
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
-import chizhikov.utilitiesbot.database.MonthData;
+import chizhikov.utilitiesbot.data.entities.MonthData;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 
 import java.sql.SQLException;

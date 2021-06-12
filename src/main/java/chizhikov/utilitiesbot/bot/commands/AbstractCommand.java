@@ -1,6 +1,6 @@
 package chizhikov.utilitiesbot.bot.commands;
 
-import chizhikov.utilitiesbot.application.DataManager;
+import chizhikov.utilitiesbot.data.DataManager;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;

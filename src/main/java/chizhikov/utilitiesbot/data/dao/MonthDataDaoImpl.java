@@ -1,6 +1,6 @@
-package chizhikov.utilitiesbot.database.dao;
+package chizhikov.utilitiesbot.data.dao;
 
-import chizhikov.utilitiesbot.database.MonthData;
+import chizhikov.utilitiesbot.data.entities.MonthData;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -30,7 +30,7 @@ public class MonthDataDaoImpl implements MonthDataDao {
 
     @Override
     public MonthData getMonthDataById(int id) {
-        Connection connection = null;
+        Connection connection;
         MonthData result = null;
         try {
             connection = getConnection();
@@ -48,7 +48,7 @@ public class MonthDataDaoImpl implements MonthDataDao {
 
     @Override
     public MonthData getMonthDataByDate(LocalDate date) throws SQLException {
-        Connection connection = null;
+        Connection connection;
         MonthData result = null;
         connection = getConnection();
         String query = "SELECT * FROM month_data WHERE date <= '%s' ORDER by date DESC LIMIT 1";
@@ -62,7 +62,7 @@ public class MonthDataDaoImpl implements MonthDataDao {
 
     @Override
     public void addMonthData(MonthData monthData) throws SQLException {
-        Connection connection = null;
+        Connection connection;
         connection = getConnection();
         String query = "INSERT INTO month_data (electricity, hot_water_bath, cold_water_bath, " +
                 "hot_water_kitchen, cold_water_kitchen, date)" +

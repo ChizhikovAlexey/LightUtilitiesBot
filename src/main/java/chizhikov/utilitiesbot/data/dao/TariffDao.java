@@ -1,6 +1,6 @@
-package chizhikov.utilitiesbot.database.dao;
+package chizhikov.utilitiesbot.data.dao;
 
-import chizhikov.utilitiesbot.database.Tariff;
+import chizhikov.utilitiesbot.data.entities.Tariff;
 
 import java.sql.SQLException;
 import java.time.LocalDate;

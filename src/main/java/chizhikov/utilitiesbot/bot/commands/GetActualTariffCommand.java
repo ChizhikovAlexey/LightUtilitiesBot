@@ -1,10 +1,10 @@
 package chizhikov.utilitiesbot.bot.commands;
 
 
-import chizhikov.utilitiesbot.application.DataManager;
+import chizhikov.utilitiesbot.data.DataManager;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
-import chizhikov.utilitiesbot.database.Tariff;
+import chizhikov.utilitiesbot.data.entities.Tariff;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;

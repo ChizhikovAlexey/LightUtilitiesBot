@@ -9,10 +9,11 @@ import chizhikov.utilitiesbot.bot.noncommands.AddTariffNonCommand;
 import chizhikov.utilitiesbot.bot.noncommands.MainNonCommand;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
-import chizhikov.utilitiesbot.database.dao.MonthDataDao;
-import chizhikov.utilitiesbot.database.dao.MonthDataDaoImpl;
-import chizhikov.utilitiesbot.database.dao.TariffDao;
-import chizhikov.utilitiesbot.database.dao.TariffDaoImpl;
+import chizhikov.utilitiesbot.data.DataManager;
+import chizhikov.utilitiesbot.data.dao.MonthDataDao;
+import chizhikov.utilitiesbot.data.dao.MonthDataDaoImpl;
+import chizhikov.utilitiesbot.data.dao.TariffDao;
+import chizhikov.utilitiesbot.data.dao.TariffDaoImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -49,7 +50,7 @@ public class Config {
         commands.add(new Cancel("cancel", "прервать обработку команды", chats, dataManager));
         commands.add(new GetActualTariffCommand("get_actual_tariff", "получить актуальный тариф", chats, dataManager));
         commands.add(new GetActualMonthDataCommand("get_actual_month_data", "получить актуальные показания", chats, dataManager));
-
+        commands.add(new GetActualShortReport("get_short_report", "получить краткий отчёт за последний месяц", chats, dataManager));
         return commands;
     }
 

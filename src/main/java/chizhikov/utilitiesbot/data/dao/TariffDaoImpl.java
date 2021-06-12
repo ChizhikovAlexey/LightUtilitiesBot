@@ -1,6 +1,6 @@
-package chizhikov.utilitiesbot.database.dao;
+package chizhikov.utilitiesbot.data.dao;
 
-import chizhikov.utilitiesbot.database.Tariff;
+import chizhikov.utilitiesbot.data.entities.Tariff;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -29,7 +29,7 @@ public class TariffDaoImpl implements TariffDao {
 
     @Override
     public Tariff getTariffById(int id) throws SQLException {
-        Connection connection = null;
+        Connection connection;
         Tariff result = null;
         connection = getConnection();
         String query = "SELECT * FROM tariffs WHERE tariff_id = %d";
@@ -43,7 +43,7 @@ public class TariffDaoImpl implements TariffDao {
 
     @Override
     public Tariff getTariffByDate(LocalDate date) throws SQLException {
-        Connection connection = null;
+        Connection connection;
         Tariff result = null;
         connection = getConnection();
         String query = "SELECT * FROM tariffs WHERE init_date <= '%s' ORDER by init_date DESC LIMIT 1";
@@ -57,7 +57,7 @@ public class TariffDaoImpl implements TariffDao {
 
     @Override
     public void addTariff(Tariff tariff) throws SQLException {
-        Connection connection = null;
+        Connection connection;
         connection = getConnection();
         String query = "INSERT INTO tariffs (electricity, hot_water, cold_water, " +
                 "drainage, init_date)" +

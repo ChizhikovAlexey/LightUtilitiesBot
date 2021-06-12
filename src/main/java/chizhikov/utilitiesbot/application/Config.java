@@ -27,18 +27,18 @@ import java.util.Map;
 @Configuration
 @ComponentScan("chizhikov.utilitiesbot")
 public class Config {
-    private final String JDBC_URL = System.getProperty("JDBC_URL");
+    private final String DATABASE_URL = System.getProperty("DATABASE_URL");
     private final String BOT_TOKEN = System.getProperty("BOT_TOKEN");
     private final String BOT_USERNAME = System.getProperty("BOT_USERNAME");
 
     @Bean("MonthDataDao")
     MonthDataDao monthDataDao() {
-        return new MonthDataDaoImpl(JDBC_URL);
+        return new MonthDataDaoImpl(DATABASE_URL);
     }
 
     @Bean("TariffDao")
     TariffDao tariffDao() {
-        return new TariffDaoImpl(JDBC_URL);
+        return new TariffDaoImpl(DATABASE_URL);
     }
 
     @Bean("ListOfCommands")

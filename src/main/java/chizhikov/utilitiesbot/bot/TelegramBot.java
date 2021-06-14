@@ -22,7 +22,7 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
 
     public TelegramBot(String username, String token, List<BotCommand> listOfCommands, Chats chats, NonCommandUpdateHandler nonCommandUpdateHandler) {
         this.username = username;
-        this.token= token;
+        this.token = token;
         this.chats = chats;
         nonCommandHandler = nonCommandUpdateHandler;
         listOfCommands.forEach(this::register);

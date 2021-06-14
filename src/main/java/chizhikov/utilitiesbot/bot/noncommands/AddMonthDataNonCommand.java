@@ -1,10 +1,11 @@
 package chizhikov.utilitiesbot.bot.noncommands;
 
-import chizhikov.utilitiesbot.data.DataManager;
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
+import chizhikov.utilitiesbot.data.DataManager;
 import chizhikov.utilitiesbot.data.entities.MonthData;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 
 import java.sql.SQLException;
@@ -12,13 +13,23 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-public class AddMonthDataNonCommand extends AbstractNonCommand{
+@Component
+public class AddMonthDataNonCommand extends AbstractNonCommand {
     private final Map<Chat, MonthData> tempMonthDataMap;
 
     public AddMonthDataNonCommand(Chats chats, DataManager dataManager) {
         super(chats, dataManager);
         tempMonthDataMap = new HashMap<>();
+        states = Set.of(
+                ChatState.ADD_MD_DATE,
+                ChatState.ADD_MD_ELECTRICITY,
+                ChatState.ADD_MD_HW_BATH,
+                ChatState.ADD_MD_CW_BATH,
+                ChatState.ADD_MD_HW_KITCHEN,
+                ChatState.ADD_MD_CW_KITCHEN
+        );
     }
 
     @Override

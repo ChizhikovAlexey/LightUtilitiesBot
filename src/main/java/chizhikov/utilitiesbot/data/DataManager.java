@@ -5,6 +5,7 @@ import chizhikov.utilitiesbot.data.dao.TariffDao;
 import chizhikov.utilitiesbot.data.entities.MonthData;
 import chizhikov.utilitiesbot.data.entities.Report;
 import chizhikov.utilitiesbot.data.entities.Tariff;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
@@ -15,6 +16,7 @@ public class DataManager {
     private final MonthDataDao monthDataDao;
     private final TariffDao tariffDao;
 
+    @Autowired
     public DataManager(MonthDataDao monthDataDao, TariffDao tariffDao) {
         this.monthDataDao = monthDataDao;
         this.tariffDao = tariffDao;

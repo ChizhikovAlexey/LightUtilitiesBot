@@ -13,6 +13,9 @@ import java.util.Set;
 public abstract class AbstractNonCommand {
     protected final Chats chats;
     protected final DataManager dataManager;
+    /**
+     * Every ChatState this NonCommand handles must be stored in this Set.
+     */
     protected Set<ChatState> states;
 
     public AbstractNonCommand(Chats chats, DataManager dataManager) {
@@ -21,8 +24,21 @@ public abstract class AbstractNonCommand {
         states = new HashSet<>();
     }
 
+    /**
+     * Analyze user's message and proceed an answer text.
+     *
+     * @param chat user's chat
+     * @param text user's message text
+     * @return Answer text to be sent by bot
+     * @throws MessageProcessingException if an exception occurs during parsing, CRUD database-operations fail or
+     * if user has sent an invalid message.
+     */
+    //TODO: refactor exceptions
     public abstract String execute(Chat chat, String text) throws MessageProcessingException;
 
+    /***
+     * @return Set of ChatStates this NonCommand Handles
+     */
     public Set<ChatState> getStates() {
         return states;
     }

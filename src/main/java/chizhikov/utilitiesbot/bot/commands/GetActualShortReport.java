@@ -4,15 +4,22 @@ package chizhikov.utilitiesbot.bot.commands;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
 import chizhikov.utilitiesbot.data.DataManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import java.sql.SQLException;
 
+@Component
 public class GetActualShortReport extends AbstractCommand {
-    public GetActualShortReport(String commandIdentifier, String description, Chats chats, DataManager dataManager) {
-        super(commandIdentifier, description, chats, dataManager);
+    private final DataManager dataManager;
+
+    @Autowired
+    public GetActualShortReport(Chats chats, DataManager dataManager) {
+        super("get_short_report", "получить краткий отчёт за последний месяц", chats);
+        this.dataManager = dataManager;
     }
 
     @Override

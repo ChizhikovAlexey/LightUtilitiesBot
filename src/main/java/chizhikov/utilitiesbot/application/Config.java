@@ -2,9 +2,7 @@ package chizhikov.utilitiesbot.application;
 
 import chizhikov.utilitiesbot.bot.NonCommandUpdateHandler;
 import chizhikov.utilitiesbot.bot.TelegramBot;
-import chizhikov.utilitiesbot.bot.commands.*;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
-import chizhikov.utilitiesbot.data.DataManager;
 import chizhikov.utilitiesbot.data.dao.MonthDataDao;
 import chizhikov.utilitiesbot.data.dao.MonthDataDaoImpl;
 import chizhikov.utilitiesbot.data.dao.TariffDao;
@@ -14,7 +12,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -32,20 +29,6 @@ public class Config {
     @Bean("TariffDao")
     TariffDao tariffDao() {
         return new TariffDaoImpl(JDBC_DATABASE_URL);
-    }
-
-    @Bean("ListOfCommands")
-    public ArrayList<BotCommand> listOfCommands(Chats chats, DataManager dataManager) {
-        ArrayList<BotCommand> commands = new ArrayList<>();
-        commands.add(new Start("start", "начало работы", chats, dataManager));
-        commands.add(new AddMonthDataCommand("add_month_data", "добавить данные за месяц", chats, dataManager));
-        commands.add(new AddTariffCommand("add_tariff", "добавить новый тариф", chats, dataManager));
-        commands.add(new Cancel("cancel", "прервать обработку команды", chats, dataManager));
-        commands.add(new GetActualTariffCommand("get_actual_tariff", "получить актуальный тариф", chats, dataManager));
-        commands.add(new GetActualMonthDataCommand("get_actual_month_data", "получить актуальные показания", chats, dataManager));
-        commands.add(new GetActualShortReport("get_short_report", "получить краткий отчёт за последний месяц", chats, dataManager));
-        commands.add(new DeleteActualMonthData("delete_actual_month_data", "удалить данный за последний месяц", chats, dataManager));
-        return commands;
     }
 
     @Bean("TelegramBot")

@@ -1,16 +1,19 @@
 package chizhikov.utilitiesbot.bot.commands;
 
-import chizhikov.utilitiesbot.data.DataManager;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
+@Component
 public class Start extends AbstractCommand {
 
-    public Start(String commandIdentifier, String description, Chats chats, DataManager dataManager) {
-        super(commandIdentifier, description, chats, dataManager);
+    @Autowired
+    public Start(Chats chats) {
+        super("start", "начало работы", chats);
     }
 
     @Override

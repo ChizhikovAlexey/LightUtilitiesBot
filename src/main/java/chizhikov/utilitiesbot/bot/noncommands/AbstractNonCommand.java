@@ -31,7 +31,7 @@ public abstract class AbstractNonCommand {
      * @param text user's message text
      * @return Answer text to be sent by bot
      * @throws MessageProcessingException if an exception occurs during parsing, CRUD database-operations fail or
-     * if user has sent an invalid message.
+     *                                    if user has sent an invalid message.
      */
     //TODO: refactor exceptions
     public abstract String execute(Chat chat, String text) throws MessageProcessingException;

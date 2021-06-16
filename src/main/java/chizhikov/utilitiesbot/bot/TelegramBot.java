@@ -3,6 +3,7 @@ package chizhikov.utilitiesbot.bot;
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -14,6 +15,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.sql.SQLException;
 import java.util.List;
 
+@Slf4j
 public class TelegramBot extends TelegramLongPollingCommandBot {
     private final Chats chats;
     private final String username;
@@ -59,9 +61,8 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
     public void sendMessage(Chat chat, String text) {
         try {
             execute(SendMessage.builder().text(text).chatId(chat.getId().toString()).build());
-        } catch (TelegramApiException exc) {
-            //TODO: сделать логгирование
-            System.out.println("Error sending message to " + chat.getId().toString() + "!" + exc);
+        } catch (TelegramApiException exception) {
+            log.error("Error sending message to " + chat.getId().toString() + "!", exception);
         }
     }
 }

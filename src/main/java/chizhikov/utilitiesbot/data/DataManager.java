@@ -58,7 +58,7 @@ public class DataManager {
         return report.getShortReport();
     }
 
-    public MonthData deleteActualMonthData () throws SQLException {
+    public MonthData deleteActualMonthData() throws SQLException {
         MonthData actualMonthData = getActualMonthData();
         monthDataDao.deleteById(actualMonthData.getId());
         return actualMonthData;

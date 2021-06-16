@@ -44,6 +44,7 @@ public class Config {
         commands.add(new GetActualTariffCommand("get_actual_tariff", "получить актуальный тариф", chats, dataManager));
         commands.add(new GetActualMonthDataCommand("get_actual_month_data", "получить актуальные показания", chats, dataManager));
         commands.add(new GetActualShortReport("get_short_report", "получить краткий отчёт за последний месяц", chats, dataManager));
+        commands.add(new DeleteActualMonthData("delete_actual_month_data", "удалить данный за последний месяц", chats, dataManager));
         return commands;
     }
 

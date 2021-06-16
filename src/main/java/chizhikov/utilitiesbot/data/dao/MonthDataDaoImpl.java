@@ -77,4 +77,13 @@ public class MonthDataDaoImpl implements MonthDataDao {
                 monthData.getDate().toString()));
         statement.execute();
     }
+
+    @Override
+    public void deleteById(int id) throws SQLException {
+        Connection connection;
+        connection = getConnection();
+        String query = "DELETE FROM month_data WHERE data_id = %d";
+        PreparedStatement statement = connection.prepareStatement(String.format(query, id));
+        statement.execute();
+    }
 }

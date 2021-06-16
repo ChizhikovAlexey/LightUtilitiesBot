@@ -57,5 +57,11 @@ public class DataManager {
         Report report = new Report(firstMonthData, secondMonthData, tariff);
         return report.getShortReport();
     }
+
+    public MonthData deleteActualMonthData () throws SQLException {
+        MonthData actualMonthData = getActualMonthData();
+        monthDataDao.deleteById(actualMonthData.getId());
+        return actualMonthData;
+    }
 }
 

@@ -1,16 +1,14 @@
 package chizhikov.utilitiesbot.data.dao;
 
 import chizhikov.utilitiesbot.data.entities.MonthData;
+import lombok.AllArgsConstructor;
 
 import java.sql.*;
 import java.time.LocalDate;
 
+@AllArgsConstructor
 public class MonthDataDaoImpl implements MonthDataDao {
     private final String JDBC_URL;
-
-    public MonthDataDaoImpl(String JDBC_URL) {
-        this.JDBC_URL = JDBC_URL;
-    }
 
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(JDBC_URL);

@@ -62,7 +62,7 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
         try {
             execute(SendMessage.builder().text(text).chatId(chat.getId().toString()).build());
         } catch (TelegramApiException exception) {
-            log.error("Error sending message to " + chat.getId().toString() + "!", exception);
+            log.error("Error sending message to " + chat.getId() + "!", exception);
         }
     }
 }

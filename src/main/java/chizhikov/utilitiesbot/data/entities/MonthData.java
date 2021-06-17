@@ -1,7 +1,12 @@
 package chizhikov.utilitiesbot.data.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 
+@NoArgsConstructor
+@AllArgsConstructor
 public class MonthData {
     private Integer id;
     private Integer electricity;
@@ -10,18 +15,6 @@ public class MonthData {
     private Integer hotWaterKitchen;
     private Integer coldWaterKitchen;
     private LocalDate date;
-
-    public MonthData() {
-    }
-
-    public MonthData(Integer electricity, Integer hotWaterBath, Integer coldWaterBath, Integer hotWaterKitchen, Integer coldWaterKitchen, LocalDate date) {
-        this.electricity = electricity;
-        this.hotWaterBath = hotWaterBath;
-        this.coldWaterBath = coldWaterBath;
-        this.hotWaterKitchen = hotWaterKitchen;
-        this.coldWaterKitchen = coldWaterKitchen;
-        this.date = date;
-    }
 
     public Integer getId() {
         return id;

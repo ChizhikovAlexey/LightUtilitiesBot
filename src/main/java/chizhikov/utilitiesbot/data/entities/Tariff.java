@@ -1,7 +1,12 @@
 package chizhikov.utilitiesbot.data.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 
+@NoArgsConstructor
+@AllArgsConstructor
 public class Tariff {
     private Integer id;
     private Double electricity;
@@ -9,17 +14,6 @@ public class Tariff {
     private Double coldWater;
     private Double drainage;
     private LocalDate date;
-
-    public Tariff() {
-    }
-
-    public Tariff(Double electricity, Double hot_water, Double cold_water, Double drainage, LocalDate date) {
-        this.electricity = electricity;
-        this.hotWater = hot_water;
-        this.coldWater = cold_water;
-        this.drainage = drainage;
-        this.date = date;
-    }
 
     public Integer getId() {
         return id;

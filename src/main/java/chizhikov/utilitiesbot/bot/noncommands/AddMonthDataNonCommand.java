@@ -6,6 +6,7 @@ import chizhikov.utilitiesbot.bot.userdata.Chats;
 import chizhikov.utilitiesbot.data.DataManager;
 import chizhikov.utilitiesbot.data.entities.MonthData;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 
 import java.sql.SQLException;
@@ -33,7 +34,8 @@ public class AddMonthDataNonCommand extends AbstractNonCommand {
     }
 
     @Override
-    public String execute(Chat chat, String text) throws MessageProcessingException {
+    public SendMessage execute(Chat chat, String text) throws MessageProcessingException {
+        SendMessage message = new SendMessage();
         ChatState chatState = chats.getState(chat);
         switch (chatState) {
             case ADD_MD_DATE -> {
@@ -44,7 +46,7 @@ public class AddMonthDataNonCommand extends AbstractNonCommand {
                 } catch (DateTimeParseException exc) {
                     throw new MessageProcessingException("Неправильный формат даты!", exc);
                 }
-                return ChatState.ADD_MD_ELECTRICITY.message;
+                message.setText(ChatState.ADD_MD_ELECTRICITY.message);
             }
             case ADD_MD_ELECTRICITY -> {
                 try {
@@ -53,7 +55,7 @@ public class AddMonthDataNonCommand extends AbstractNonCommand {
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
-                return ChatState.ADD_MD_HW_BATH.message;
+                message.setText(ChatState.ADD_MD_HW_BATH.message);
             }
             case ADD_MD_HW_BATH -> {
                 try {
@@ -62,7 +64,7 @@ public class AddMonthDataNonCommand extends AbstractNonCommand {
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
-                return ChatState.ADD_MD_CW_BATH.message;
+                message.setText(ChatState.ADD_MD_CW_BATH.message);
             }
             case ADD_MD_CW_BATH -> {
                 try {
@@ -71,7 +73,7 @@ public class AddMonthDataNonCommand extends AbstractNonCommand {
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
-                return ChatState.ADD_MD_HW_KITCHEN.message;
+                message.setText(ChatState.ADD_MD_HW_KITCHEN.message);
             }
             case ADD_MD_HW_KITCHEN -> {
                 try {
@@ -80,7 +82,7 @@ public class AddMonthDataNonCommand extends AbstractNonCommand {
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
-                return ChatState.ADD_MD_CW_KITCHEN.message;
+                message.setText(ChatState.ADD_MD_CW_KITCHEN.message);
             }
             case ADD_MD_CW_KITCHEN -> {
                 try {
@@ -92,9 +94,9 @@ public class AddMonthDataNonCommand extends AbstractNonCommand {
                 } catch (SQLException exc) {
                     throw new MessageProcessingException("Ошибка при записи в базу данных: " + exc.getMessage(), exc);
                 }
-                return "Данные сохранены!";
+                message.setText("Данные сохранены!");
             }
         }
-        return null;
+        return message;
     }
 }

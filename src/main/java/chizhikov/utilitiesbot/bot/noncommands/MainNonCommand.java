@@ -5,7 +5,9 @@ import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
 import chizhikov.utilitiesbot.data.DataManager;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 
 import java.util.Set;
 
@@ -20,7 +22,9 @@ public class MainNonCommand extends AbstractNonCommand {
     }
 
     @Override
-    public String execute(Chat chat, String text) throws MessageProcessingException {
-        return "Используйте команды для взаимодействия с ботом! Например, /add_month_data";
+    public SendMessage execute(Chat chat, String text) throws MessageProcessingException {
+        SendMessage message = new SendMessage();
+        message.setText("Используйте команды для взаимодействия с ботом! Например, /add_month_data");
+        return message;
     }
 }

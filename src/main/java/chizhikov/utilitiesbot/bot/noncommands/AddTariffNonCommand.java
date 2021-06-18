@@ -6,6 +6,7 @@ import chizhikov.utilitiesbot.bot.userdata.Chats;
 import chizhikov.utilitiesbot.data.DataManager;
 import chizhikov.utilitiesbot.data.entities.Tariff;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 
 import java.sql.SQLException;
@@ -32,7 +33,8 @@ public class AddTariffNonCommand extends AbstractNonCommand {
     }
 
     @Override
-    public String execute(Chat chat, String text) throws MessageProcessingException {
+    public SendMessage execute(Chat chat, String text) throws MessageProcessingException {
+        SendMessage message = new SendMessage();
         ChatState chatState = chats.getState(chat);
         switch (chatState) {
             case ADD_T_DATE -> {
@@ -43,7 +45,7 @@ public class AddTariffNonCommand extends AbstractNonCommand {
                 } catch (DateTimeParseException exc) {
                     throw new MessageProcessingException("Неправильный формат даты!", exc);
                 }
-                return ChatState.ADD_T_ELECTRICITY.message;
+                message.setText(ChatState.ADD_T_ELECTRICITY.message);
             }
             case ADD_T_ELECTRICITY -> {
                 try {
@@ -52,7 +54,7 @@ public class AddTariffNonCommand extends AbstractNonCommand {
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
-                return ChatState.ADD_T_HW.message;
+                message.setText(ChatState.ADD_T_HW.message);
             }
             case ADD_T_HW -> {
                 try {
@@ -61,7 +63,7 @@ public class AddTariffNonCommand extends AbstractNonCommand {
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
-                return ChatState.ADD_T_CW.message;
+                message.setText(ChatState.ADD_T_CW.message);
             }
             case ADD_T_CW -> {
                 try {
@@ -70,7 +72,7 @@ public class AddTariffNonCommand extends AbstractNonCommand {
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
-                return ChatState.ADD_T_DRAINAGE.message;
+                message.setText(ChatState.ADD_T_DRAINAGE.message);
             }
             case ADD_T_DRAINAGE -> {
                 try {
@@ -82,9 +84,10 @@ public class AddTariffNonCommand extends AbstractNonCommand {
                 } catch (SQLException exc) {
                     throw new MessageProcessingException("Ошибка при записи в базу данных: " + exc.getMessage(), exc);
                 }
-                return "Данные сохранены!";
+                message.setText("Данные сохранены!");
             }
             default -> throw new MessageProcessingException("Некорректное состояние бота!");
         }
+        return message;
     }
 }

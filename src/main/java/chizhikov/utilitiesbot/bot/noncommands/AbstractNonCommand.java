@@ -4,6 +4,7 @@ import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
 import chizhikov.utilitiesbot.data.DataManager;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 
 import java.util.HashSet;
@@ -34,7 +35,7 @@ public abstract class AbstractNonCommand {
      *                                    if user has sent an invalid message.
      */
     //TODO: refactor exceptions
-    public abstract String execute(Chat chat, String text) throws MessageProcessingException;
+    public abstract SendMessage execute(Chat chat, String text) throws MessageProcessingException;
 
     /***
      * @return Set of ChatStates this NonCommand Handles

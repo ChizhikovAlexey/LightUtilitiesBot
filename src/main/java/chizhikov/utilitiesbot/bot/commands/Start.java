@@ -22,9 +22,8 @@ public class Start extends AbstractCommand {
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        if (chats.getState(chat) == ChatState.NONE) {
-            chats.updateState(chat, ChatState.MAIN);
-//            sendAnswer(absSender, chat, getCommandIdentifier(), ChatState.MAIN.message);
+        if (chats.getState(chat) == ChatState.NOT_STARTED) {
+            chats.setState(chat, ChatState.MAIN);
             sendMessage(
                     absSender,
                     SendMessage.

@@ -8,9 +8,7 @@ import chizhikov.utilitiesbot.data.DataManager;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 
-import java.sql.SQLException;
 import java.util.Set;
 
 @Component
@@ -29,11 +27,11 @@ public class MainAddNonCommand extends AbstractNonCommand {
         message.setChatId(chat.getId().toString());
         switch (text) {
             case "Показания счётчиков" -> {
-                chats.updateState(chat, ChatState.ADD_MD_DATE);
+                chats.setState(chat, ChatState.ADD_MD_DATE);
                 message.setText(ChatState.ADD_MD_DATE.message);
             }
             case "Новый тариф" -> {
-                chats.updateState(chat, ChatState.ADD_T_DATE);
+                chats.setState(chat, ChatState.ADD_T_DATE);
                 message.setText(ChatState.ADD_T_DATE.message);
             }
             default -> {

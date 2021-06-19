@@ -44,7 +44,7 @@ public class AddMonthDataNonCommand extends AbstractNonCommand {
                 try {
                     tempMonthDataMap.put(chat, new MonthData());
                     tempMonthDataMap.get(chat).setDate(LocalDate.parse(text));
-                    chats.updateState(chat, ChatState.ADD_MD_ELECTRICITY);
+                    chats.setState(chat, ChatState.ADD_MD_ELECTRICITY);
                 } catch (DateTimeParseException exc) {
                     throw new MessageProcessingException("Неправильный формат даты!", exc);
                 }
@@ -53,7 +53,7 @@ public class AddMonthDataNonCommand extends AbstractNonCommand {
             case ADD_MD_ELECTRICITY -> {
                 try {
                     tempMonthDataMap.get(chat).setElectricity(Integer.valueOf(text));
-                    chats.updateState(chat, ChatState.ADD_MD_HW_BATH);
+                    chats.setState(chat, ChatState.ADD_MD_HW_BATH);
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
@@ -62,7 +62,7 @@ public class AddMonthDataNonCommand extends AbstractNonCommand {
             case ADD_MD_HW_BATH -> {
                 try {
                     tempMonthDataMap.get(chat).setHotWaterBath(Integer.valueOf(text));
-                    chats.updateState(chat, ChatState.ADD_MD_CW_BATH);
+                    chats.setState(chat, ChatState.ADD_MD_CW_BATH);
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
@@ -71,7 +71,7 @@ public class AddMonthDataNonCommand extends AbstractNonCommand {
             case ADD_MD_CW_BATH -> {
                 try {
                     tempMonthDataMap.get(chat).setColdWaterBath(Integer.valueOf(text));
-                    chats.updateState(chat, ChatState.ADD_MD_HW_KITCHEN);
+                    chats.setState(chat, ChatState.ADD_MD_HW_KITCHEN);
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
@@ -80,7 +80,7 @@ public class AddMonthDataNonCommand extends AbstractNonCommand {
             case ADD_MD_HW_KITCHEN -> {
                 try {
                     tempMonthDataMap.get(chat).setHotWaterKitchen(Integer.valueOf(text));
-                    chats.updateState(chat, ChatState.ADD_MD_CW_KITCHEN);
+                    chats.setState(chat, ChatState.ADD_MD_CW_KITCHEN);
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
@@ -89,7 +89,7 @@ public class AddMonthDataNonCommand extends AbstractNonCommand {
             case ADD_MD_CW_KITCHEN -> {
                 try {
                     tempMonthDataMap.get(chat).setColdWaterKitchen(Integer.valueOf(text));
-                    chats.updateState(chat, ChatState.MAIN);
+                    chats.setState(chat, ChatState.MAIN);
                     dataManager.addMonthData(tempMonthDataMap.get(chat));
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);

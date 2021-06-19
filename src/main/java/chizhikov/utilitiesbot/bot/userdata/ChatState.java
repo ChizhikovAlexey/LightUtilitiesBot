@@ -1,7 +1,7 @@
 package chizhikov.utilitiesbot.bot.userdata;
 
 public enum ChatState {
-    NONE("Работа не начата!"),
+    NOT_STARTED("Работа не начата!"),
 
     MAIN("Бот готов к работе!"),
     MAIN_GET("Получение данных"),

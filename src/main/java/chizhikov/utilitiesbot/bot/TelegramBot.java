@@ -58,9 +58,9 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
                             build()
             );
             if (msgExc.getCause() instanceof SQLException) {
-                chats.updateState(chat, ChatState.MAIN);
+                chats.setState(chat, ChatState.MAIN);
             } else {
-                chats.updateState(chat, chatState);
+                chats.setState(chat, chatState);
             }
 //            sendMessage(chat, chats.getState(chat).message);
             sendMessage(

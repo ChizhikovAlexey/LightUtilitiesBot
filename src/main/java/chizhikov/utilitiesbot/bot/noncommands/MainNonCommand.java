@@ -28,12 +28,12 @@ public class MainNonCommand extends AbstractNonCommand {
         switch (text) {
             case "Получить данные" -> {
                 message.setText("Какие данные требуются?");
-                chats.updateState(chat, ChatState.MAIN_GET);
+                chats.setState(chat, ChatState.MAIN_GET);
                 message.setReplyMarkup(keyboardResolver.getKeyboard(chats.getState(chat)));
             }
             case "Добавить новые данные" -> {
                 message.setText("Что хотите добавить?");
-                chats.updateState(chat, ChatState.MAIN_ADD);
+                chats.setState(chat, ChatState.MAIN_ADD);
                 message.setReplyMarkup(keyboardResolver.getKeyboard(chats.getState(chat)));
             }
             default -> {

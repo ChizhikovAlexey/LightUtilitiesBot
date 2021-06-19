@@ -28,7 +28,7 @@ public class MainGetNonCommand extends AbstractNonCommand {
         message.setChatId(chat.getId().toString());
         switch (text) {
             case "Актуальные данные за месяц" -> {
-                chats.updateState(chat, ChatState.MAIN);
+                chats.setState(chat, ChatState.MAIN);
                 message.setReplyMarkup(keyboardResolver.getKeyboard(ChatState.MAIN));
                 try {
                     message.setText(dataManager.getActualMonthData().toString());
@@ -40,7 +40,7 @@ public class MainGetNonCommand extends AbstractNonCommand {
                 }
             }
             case "Последний короткий отчёт" -> {
-                chats.updateState(chat, ChatState.MAIN);
+                chats.setState(chat, ChatState.MAIN);
                 message.setReplyMarkup(keyboardResolver.getKeyboard(ChatState.MAIN));
                 try {
                     message.setText(dataManager.getActualShortRepot());
@@ -52,7 +52,7 @@ public class MainGetNonCommand extends AbstractNonCommand {
                 }
             }
             case "Актуальный тариф" -> {
-                chats.updateState(chat, ChatState.MAIN);
+                chats.setState(chat, ChatState.MAIN);
                 message.setReplyMarkup(keyboardResolver.getKeyboard(ChatState.MAIN));
                 try {
                     message.setText(dataManager.getActualTariff().toString());

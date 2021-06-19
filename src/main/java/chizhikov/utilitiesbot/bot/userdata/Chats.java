@@ -15,18 +15,14 @@ public class Chats {
     }
 
     public ChatState getState(String id) {
-        return chatsMap.getOrDefault(id, ChatState.NONE);
-    }
-
-    public void updateState(String id, ChatState state) {
-        chatsMap.put(id, state);
+        return chatsMap.getOrDefault(id, ChatState.NOT_STARTED);
     }
 
     public ChatState getState(Chat chat) {
-        return chatsMap.getOrDefault(chat.getId().toString(), ChatState.NONE);
+        return chatsMap.getOrDefault(chat.getId().toString(), ChatState.NOT_STARTED);
     }
 
-    public void updateState(Chat chat, ChatState state) {
+    public void setState(Chat chat, ChatState state) {
         chatsMap.put(chat.getId().toString(), state);
     }
 }

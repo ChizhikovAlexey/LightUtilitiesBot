@@ -43,7 +43,7 @@ public class AddTariffNonCommand extends AbstractNonCommand {
                 try {
                     tempTariffMap.put(chat, new Tariff());
                     tempTariffMap.get(chat).setDate(LocalDate.parse(text));
-                    chats.updateState(chat, ChatState.ADD_T_ELECTRICITY);
+                    chats.setState(chat, ChatState.ADD_T_ELECTRICITY);
                 } catch (DateTimeParseException exc) {
                     throw new MessageProcessingException("Неправильный формат даты!", exc);
                 }
@@ -52,7 +52,7 @@ public class AddTariffNonCommand extends AbstractNonCommand {
             case ADD_T_ELECTRICITY -> {
                 try {
                     tempTariffMap.get(chat).setElectricity(Double.valueOf(text));
-                    chats.updateState(chat, ChatState.ADD_T_HW);
+                    chats.setState(chat, ChatState.ADD_T_HW);
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
@@ -61,7 +61,7 @@ public class AddTariffNonCommand extends AbstractNonCommand {
             case ADD_T_HW -> {
                 try {
                     tempTariffMap.get(chat).setHotWater(Double.valueOf(text));
-                    chats.updateState(chat, ChatState.ADD_T_CW);
+                    chats.setState(chat, ChatState.ADD_T_CW);
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
@@ -70,7 +70,7 @@ public class AddTariffNonCommand extends AbstractNonCommand {
             case ADD_T_CW -> {
                 try {
                     tempTariffMap.get(chat).setColdWater(Double.valueOf(text));
-                    chats.updateState(chat, ChatState.ADD_T_DRAINAGE);
+                    chats.setState(chat, ChatState.ADD_T_DRAINAGE);
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
@@ -79,7 +79,7 @@ public class AddTariffNonCommand extends AbstractNonCommand {
             case ADD_T_DRAINAGE -> {
                 try {
                     tempTariffMap.get(chat).setDrainage(Double.valueOf(text));
-                    chats.updateState(chat, ChatState.MAIN);
+                    chats.setState(chat, ChatState.MAIN);
                     dataManager.addTariff(tempTariffMap.get(chat));
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);

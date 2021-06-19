@@ -1,5 +1,6 @@
 package chizhikov.utilitiesbot.bot.commands;
 
+import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
@@ -21,13 +22,18 @@ public abstract class AbstractCommand extends BotCommand {
         try {
             absSender.execute(SendMessage.builder().text(text).chatId(chat.getId().toString()).build());
         } catch (TelegramApiException e) {
-            log.error("Error occured while sending message to " + chat.getId() + "!", e);
+            log.error("Error occurred while sending message to " + chat.getId() + "!", e);
         }
     }
 
     void sendWrongStateAnswer(AbsSender absSender, Chat chat) {
         try {
-            String text = "Выполнение предыдущей команды не закончено. Используйте команду /cancel для её отмены и повторите ввод!";
+            String text;
+            if (chats.getState(chat) == ChatState.NOT_STARTED) {
+                text = "Поздоровайтесь с ботом командой /start =)";
+            } else {
+                text = "Выполнение предыдущей команды не закончено. Используйте команду /cancel для её отмены и повторите ввод!";
+            }
             absSender.execute(SendMessage.builder().text(text).chatId(chat.getId().toString()).build());
         } catch (TelegramApiException e) {
             log.error("Error occured while sending message to " + chat.getId() + "!", e);

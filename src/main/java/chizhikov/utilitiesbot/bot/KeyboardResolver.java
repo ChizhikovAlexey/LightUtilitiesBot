@@ -68,6 +68,19 @@ public class KeyboardResolver {
                 )
         );
         mainAddKeyboard.setOneTimeKeyboard(true);
+
+        //Keyboard for date input
+        ReplyKeyboardMarkup todayButtonKeyboard = new ReplyKeyboardMarkup();
+        keyboards.put(ChatState.ADD_MD_DATE, todayButtonKeyboard);
+        keyboards.put(ChatState.ADD_T_DATE, todayButtonKeyboard);
+        todayButtonKeyboard.setKeyboard(
+                List.of(
+                        new KeyboardRowExt(
+                                new KeyboardButton("Сегодня")
+                        )
+                )
+        );
+        todayButtonKeyboard.setOneTimeKeyboard(true);
     }
 
     public ReplyKeyboard getKeyboard(ChatState chatState) {

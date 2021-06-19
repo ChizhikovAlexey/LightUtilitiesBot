@@ -42,7 +42,11 @@ public class AddTariffMessageProcessor extends AbstractMessageProcessor {
             case ADD_T_DATE -> {
                 try {
                     tempTariffMap.put(chat, new Tariff());
-                    tempTariffMap.get(chat).setDate(LocalDate.parse(text));
+                    if (text.equals("Сегодня")) {
+                        tempTariffMap.get(chat).setDate(LocalDate.now());
+                    } else {
+                        tempTariffMap.get(chat).setDate(LocalDate.parse(text));
+                    }
                     chats.setState(chat, ChatState.ADD_T_ELECTRICITY);
                 } catch (DateTimeParseException exc) {
                     throw new MessageProcessingException("Неправильный формат даты!", exc);

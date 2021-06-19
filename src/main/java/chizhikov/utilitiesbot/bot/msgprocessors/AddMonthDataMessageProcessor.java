@@ -43,7 +43,11 @@ public class AddMonthDataMessageProcessor extends AbstractMessageProcessor {
             case ADD_MD_DATE -> {
                 try {
                     tempMonthDataMap.put(chat, new MonthData());
-                    tempMonthDataMap.get(chat).setDate(LocalDate.parse(text));
+                    if (text.equals("Сегодня")) {
+                        tempMonthDataMap.get(chat).setDate(LocalDate.now());
+                    } else {
+                        tempMonthDataMap.get(chat).setDate(LocalDate.parse(text));
+                    }
                     chats.setState(chat, ChatState.ADD_MD_ELECTRICITY);
                 } catch (DateTimeParseException exc) {
                     throw new MessageProcessingException("Неправильный формат даты!", exc);

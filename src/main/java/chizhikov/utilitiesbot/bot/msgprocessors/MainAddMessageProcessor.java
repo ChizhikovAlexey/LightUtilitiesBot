@@ -32,6 +32,7 @@ public class MainAddMessageProcessor extends AbstractMessageProcessor {
                         SendMessage.
                                 builder().
                                 chatId(chat.getId().toString()).
+                                replyMarkup(keyboardResolver.getKeyboard(chats.getState(chat))).
                                 text(ChatState.ADD_MD_DATE.message).
                                 build()
                 );
@@ -42,6 +43,7 @@ public class MainAddMessageProcessor extends AbstractMessageProcessor {
                         SendMessage.
                                 builder().
                                 chatId(chat.getId().toString()).
+                                replyMarkup(keyboardResolver.getKeyboard(chats.getState(chat))).
                                 text(ChatState.ADD_T_DATE.message).
                                 build()
                 );

@@ -130,6 +130,7 @@ public class AddMonthDataMessageProcessor extends AbstractMessageProcessor {
                         SendMessage.
                                 builder().
                                 chatId(chat.getId().toString()).
+                                replyMarkup(keyboardResolver.getKeyboard(ChatState.MAIN)).
                                 text("Данные сохранены!").
                                 build()
                 );

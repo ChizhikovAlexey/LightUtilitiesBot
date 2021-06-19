@@ -114,6 +114,7 @@ public class AddTariffMessageProcessor extends AbstractMessageProcessor {
                         SendMessage.
                                 builder().
                                 chatId(chat.getId().toString()).
+                                replyMarkup(keyboardResolver.getKeyboard(ChatState.MAIN)).
                                 text("Данные сохранены!").
                                 build()
                 );

@@ -1,5 +1,6 @@
 package chizhikov.utilitiesbot.bot.noncommands;
 
+import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
@@ -20,8 +21,8 @@ import java.util.Set;
 public class AddMonthDataNonCommand extends AbstractNonCommand {
     private final Map<Chat, MonthData> tempMonthDataMap;
 
-    public AddMonthDataNonCommand(Chats chats, DataManager dataManager) {
-        super(chats, dataManager);
+    public AddMonthDataNonCommand(Chats chats, DataManager dataManager, KeyboardResolver keyboardResolver) {
+        super(chats, dataManager, keyboardResolver);
         tempMonthDataMap = new HashMap<>();
         states = Set.of(
                 ChatState.ADD_MD_DATE,
@@ -36,6 +37,7 @@ public class AddMonthDataNonCommand extends AbstractNonCommand {
     @Override
     public SendMessage execute(Chat chat, String text) throws MessageProcessingException {
         SendMessage message = new SendMessage();
+        message.setChatId(chat.getId().toString());
         ChatState chatState = chats.getState(chat);
         switch (chatState) {
             case ADD_MD_DATE -> {

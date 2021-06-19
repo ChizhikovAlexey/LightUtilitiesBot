@@ -4,6 +4,8 @@ public enum ChatState {
     NONE("Работа не начата!"),
 
     MAIN("Бот готов к работе!"),
+    MAIN_GET("Получение данных"),
+    MAIN_ADD("Добавление данных"),
 
     ADD_MD_ELECTRICITY("Электроэнергия:"),
     ADD_MD_HW_BATH("Горячая вода (санузел):"),

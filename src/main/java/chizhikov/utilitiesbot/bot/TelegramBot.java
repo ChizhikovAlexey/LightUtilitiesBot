@@ -21,12 +21,14 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
     private final String username;
     private final String token;
     private final NonCommandUpdateHandler nonCommandHandler;
+    private final KeyboardResolver keyboardResolver;
 
-    public TelegramBot(String username, String token, List<BotCommand> listOfCommands, Chats chats, NonCommandUpdateHandler nonCommandUpdateHandler) {
+    public TelegramBot(String username, String token, List<BotCommand> listOfCommands, Chats chats, NonCommandUpdateHandler nonCommandUpdateHandler, KeyboardResolver keyboardResolver) {
         this.username = username;
         this.token = token;
         this.chats = chats;
         nonCommandHandler = nonCommandUpdateHandler;
+        this.keyboardResolver = keyboardResolver;
         listOfCommands.forEach(this::register);
     }
 
@@ -46,23 +48,37 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
         Chat chat = message.getChat();
         ChatState chatState = chats.getState(chat);
         try {
-            sendMessage(chat, nonCommandHandler.process(chat, message.getText()).getText());
+            sendMessage(nonCommandHandler.process(chat, message.getText()));
         } catch (MessageProcessingException msgExc) {
-            sendMessage(chat, msgExc.getMessage());
+//            sendMessage(chat, msgExc.getMessage());
+            sendMessage(
+                    SendMessage.builder().
+                            chatId(chat.getId().toString()).
+                            text(msgExc.getMessage()).
+                            build()
+            );
             if (msgExc.getCause() instanceof SQLException) {
                 chats.updateState(chat, ChatState.MAIN);
             } else {
                 chats.updateState(chat, chatState);
             }
-            sendMessage(chat, chats.getState(chat).message);
+//            sendMessage(chat, chats.getState(chat).message);
+            sendMessage(
+                    SendMessage.builder().
+                            chatId(chat.getId().toString()).
+                            text(chats.getState(chat).message).
+                            replyMarkup(keyboardResolver.getKeyboard(chats.getState(chat))).
+                            build()
+            );
         }
     }
 
-    public void sendMessage(Chat chat, String text) {
+    private void sendMessage(SendMessage message) {
         try {
-            execute(SendMessage.builder().text(text).chatId(chat.getId().toString()).build());
+//            execute(SendMessage.builder().text(text).chatId(chat.getId().toString()).build());
+            execute(message);
         } catch (TelegramApiException exception) {
-            log.error("Error sending message to " + chat.getId() + "!", exception);
+            log.error("Error sending message to " + message.getChatId() + "!", exception);
         }
     }
 }

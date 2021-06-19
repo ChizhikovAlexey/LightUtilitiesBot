@@ -1,5 +1,6 @@
 package chizhikov.utilitiesbot.bot.noncommands;
 
+import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
@@ -18,10 +19,12 @@ public abstract class AbstractNonCommand {
      * Every ChatState this NonCommand handles must be stored in this Set.
      */
     protected Set<ChatState> states;
+    protected final KeyboardResolver keyboardResolver;
 
-    public AbstractNonCommand(Chats chats, DataManager dataManager) {
+    public AbstractNonCommand(Chats chats, DataManager dataManager, KeyboardResolver keyboardResolver) {
         this.chats = chats;
         this.dataManager = dataManager;
+        this.keyboardResolver = keyboardResolver;
         states = new HashSet<>();
     }
 

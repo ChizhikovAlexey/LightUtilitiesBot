@@ -6,12 +6,12 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import java.util.List;
 
 public class KeyboardRowExt extends KeyboardRow {
-    public KeyboardRowExt (List<KeyboardButton> buttons) {
+    public KeyboardRowExt(List<KeyboardButton> buttons) {
         super();
         addAll(buttons);
     }
 
-    public KeyboardRowExt (KeyboardButton button) {
+    public KeyboardRowExt(KeyboardButton button) {
         super();
         add(button);
     }

@@ -1,6 +1,7 @@
 package chizhikov.utilitiesbot.bot;
 
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
+import chizhikov.utilitiesbot.bot.extensions.MessageExtension;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
 import lombok.extern.slf4j.Slf4j;
@@ -20,14 +21,14 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
     private final Chats chats;
     private final String username;
     private final String token;
-    private final MessageHandler nonCommandHandler;
+    private final MessageHandler messageHandler;
     private final KeyboardResolver keyboardResolver;
 
     public TelegramBot(String username, String token, List<BotCommand> listOfCommands, Chats chats, MessageHandler nonCommandUpdateHandler, KeyboardResolver keyboardResolver) {
         this.username = username;
         this.token = token;
         this.chats = chats;
-        nonCommandHandler = nonCommandUpdateHandler;
+        messageHandler = nonCommandUpdateHandler;
         this.keyboardResolver = keyboardResolver;
         listOfCommands.forEach(this::register);
     }
@@ -48,9 +49,8 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
         Chat chat = message.getChat();
         ChatState chatState = chats.getState(chat);
         try {
-            sendMessage(nonCommandHandler.process(chat, message.getText()));
+            sendMessageExtension(messageHandler.process(chat, message.getText()));
         } catch (MessageProcessingException msgExc) {
-//            sendMessage(chat, msgExc.getMessage());
             sendMessage(
                     SendMessage.builder().
                             chatId(chat.getId().toString()).
@@ -62,7 +62,6 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
             } else {
                 chats.setState(chat, chatState);
             }
-//            sendMessage(chat, chats.getState(chat).message);
             sendMessage(
                     SendMessage.builder().
                             chatId(chat.getId().toString()).
@@ -73,9 +72,26 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
         }
     }
 
+    private void sendMessageExtension(MessageExtension message) {
+        try {
+            if (message.getSendMessage() != null) {
+                execute(message.getSendMessage());
+            }
+        } catch (TelegramApiException exception) {
+            log.error("Error sending message to " + message.getSendMessage().getChatId() + "!", exception);
+        }
+
+        try {
+            if (message.getSendDocument() != null) {
+                execute(message.getSendDocument());
+            }
+        } catch (TelegramApiException exception) {
+            log.error("Error sending document to " + message.getSendDocument().getChatId() + "!", exception);
+        }
+    }
+
     private void sendMessage(SendMessage message) {
         try {
-//            execute(SendMessage.builder().text(text).chatId(chat.getId().toString()).build());
             execute(message);
         } catch (TelegramApiException exception) {
             log.error("Error sending message to " + message.getChatId() + "!", exception);

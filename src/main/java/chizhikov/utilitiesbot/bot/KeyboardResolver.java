@@ -5,7 +5,6 @@ import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 
 import java.util.HashMap;
@@ -46,6 +45,9 @@ public class KeyboardResolver {
                                 new KeyboardButton("Последний короткий отчёт")
                         ),
                         new KeyboardRowExt(
+                                new KeyboardButton("Таблица со всеми показаниями")
+                        ),
+                        new KeyboardRowExt(
                                 new KeyboardButton("Актуальный тариф")
                         )
                 )
@@ -68,7 +70,7 @@ public class KeyboardResolver {
         mainAddKeyboard.setOneTimeKeyboard(true);
     }
 
-    public ReplyKeyboard getKeyboard (ChatState chatState) {
+    public ReplyKeyboard getKeyboard(ChatState chatState) {
         return keyboards.get(chatState);
     }
 }

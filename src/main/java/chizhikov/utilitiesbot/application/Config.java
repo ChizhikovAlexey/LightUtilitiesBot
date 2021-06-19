@@ -4,10 +4,7 @@ import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.MessageHandler;
 import chizhikov.utilitiesbot.bot.TelegramBot;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
-import chizhikov.utilitiesbot.data.dao.MonthDataDao;
-import chizhikov.utilitiesbot.data.dao.MonthDataDaoImpl;
-import chizhikov.utilitiesbot.data.dao.TariffDao;
-import chizhikov.utilitiesbot.data.dao.TariffDaoImpl;
+import chizhikov.utilitiesbot.data.dao.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +27,11 @@ public class Config {
     @Bean("TariffDao")
     TariffDao tariffDao() {
         return new TariffDaoImpl(JDBC_DATABASE_URL);
+    }
+
+    @Bean("QueriesManager")
+    QueriesManager queriesManager() {
+        return new QueriesManager(JDBC_DATABASE_URL);
     }
 
     @Bean("TelegramBot")

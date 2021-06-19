@@ -2,6 +2,7 @@ package chizhikov.utilitiesbot.bot.msgprocessors;
 
 import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
+import chizhikov.utilitiesbot.bot.extensions.MessageExtension;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
 import chizhikov.utilitiesbot.data.DataManager;
@@ -35,9 +36,8 @@ public class AddMonthDataMessageProcessor extends AbstractMessageProcessor {
     }
 
     @Override
-    public SendMessage execute(Chat chat, String text) throws MessageProcessingException {
-        SendMessage message = new SendMessage();
-        message.setChatId(chat.getId().toString());
+    public MessageExtension execute(Chat chat, String text) throws MessageProcessingException {
+        MessageExtension result = new MessageExtension();
         ChatState chatState = chats.getState(chat);
         switch (chatState) {
             case ADD_MD_DATE -> {
@@ -48,7 +48,13 @@ public class AddMonthDataMessageProcessor extends AbstractMessageProcessor {
                 } catch (DateTimeParseException exc) {
                     throw new MessageProcessingException("Неправильный формат даты!", exc);
                 }
-                message.setText(ChatState.ADD_MD_ELECTRICITY.message);
+                result.setSendMessage(
+                        SendMessage.
+                                builder().
+                                chatId(chat.getId().toString()).
+                                text(ChatState.ADD_MD_ELECTRICITY.message).
+                                build()
+                );
             }
             case ADD_MD_ELECTRICITY -> {
                 try {
@@ -57,7 +63,13 @@ public class AddMonthDataMessageProcessor extends AbstractMessageProcessor {
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
-                message.setText(ChatState.ADD_MD_HW_BATH.message);
+                result.setSendMessage(
+                        SendMessage.
+                                builder().
+                                chatId(chat.getId().toString()).
+                                text(ChatState.ADD_MD_HW_BATH.message).
+                                build()
+                );
             }
             case ADD_MD_HW_BATH -> {
                 try {
@@ -66,7 +78,13 @@ public class AddMonthDataMessageProcessor extends AbstractMessageProcessor {
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
-                message.setText(ChatState.ADD_MD_CW_BATH.message);
+                result.setSendMessage(
+                        SendMessage.
+                                builder().
+                                chatId(chat.getId().toString()).
+                                text(ChatState.ADD_MD_CW_BATH.message).
+                                build()
+                );
             }
             case ADD_MD_CW_BATH -> {
                 try {
@@ -75,7 +93,13 @@ public class AddMonthDataMessageProcessor extends AbstractMessageProcessor {
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
-                message.setText(ChatState.ADD_MD_HW_KITCHEN.message);
+                result.setSendMessage(
+                        SendMessage.
+                                builder().
+                                chatId(chat.getId().toString()).
+                                text(ChatState.ADD_MD_HW_KITCHEN.message).
+                                build()
+                );
             }
             case ADD_MD_HW_KITCHEN -> {
                 try {
@@ -84,7 +108,13 @@ public class AddMonthDataMessageProcessor extends AbstractMessageProcessor {
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
-                message.setText(ChatState.ADD_MD_CW_KITCHEN.message);
+                result.setSendMessage(
+                        SendMessage.
+                                builder().
+                                chatId(chat.getId().toString()).
+                                text(ChatState.ADD_MD_CW_KITCHEN.message).
+                                build()
+                );
             }
             case ADD_MD_CW_KITCHEN -> {
                 try {
@@ -96,9 +126,15 @@ public class AddMonthDataMessageProcessor extends AbstractMessageProcessor {
                 } catch (SQLException exc) {
                     throw new MessageProcessingException("Ошибка при записи в базу данных: " + exc.getMessage(), exc);
                 }
-                message.setText("Данные сохранены!");
+                result.setSendMessage(
+                        SendMessage.
+                                builder().
+                                chatId(chat.getId().toString()).
+                                text("Данные сохранены!").
+                                build()
+                );
             }
         }
-        return message;
+        return result;
     }
 }

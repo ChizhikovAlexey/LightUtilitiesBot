@@ -2,6 +2,7 @@ package chizhikov.utilitiesbot.bot.msgprocessors;
 
 import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
+import chizhikov.utilitiesbot.bot.extensions.MessageExtension;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
 import chizhikov.utilitiesbot.data.DataManager;
@@ -22,25 +23,42 @@ public class MainMessageProcessor extends AbstractMessageProcessor {
     }
 
     @Override
-    public SendMessage execute(Chat chat, String text) throws MessageProcessingException {
-        SendMessage message = new SendMessage();
-        message.setChatId(chat.getId().toString());
+    public MessageExtension execute(Chat chat, String text) throws MessageProcessingException {
+        MessageExtension result = new MessageExtension();
         switch (text) {
             case "Получить данные" -> {
-                message.setText("Какие данные требуются?");
                 chats.setState(chat, ChatState.MAIN_GET);
-                message.setReplyMarkup(keyboardResolver.getKeyboard(chats.getState(chat)));
+                result.setSendMessage(
+                        SendMessage.
+                                builder().
+                                chatId(chat.getId().toString()).
+                                replyMarkup(keyboardResolver.getKeyboard(chats.getState(chat))).
+                                text("Какие данные требуются?").
+                                build()
+                );
             }
             case "Добавить новые данные" -> {
-                message.setText("Что хотите добавить?");
                 chats.setState(chat, ChatState.MAIN_ADD);
-                message.setReplyMarkup(keyboardResolver.getKeyboard(chats.getState(chat)));
+                chats.setState(chat, ChatState.MAIN_GET);
+                result.setSendMessage(
+                        SendMessage.
+                                builder().
+                                chatId(chat.getId().toString()).
+                                replyMarkup(keyboardResolver.getKeyboard(chats.getState(chat))).
+                                text("Что хотите добавить?").
+                                build()
+                );
+
             }
-            default -> {
-                message.setText("Используйте кнопки для взаимодействия с ботом!");
-                message.setReplyMarkup(keyboardResolver.getKeyboard(chats.getState(chat)));
-            }
+            default -> result.setSendMessage(
+                    SendMessage.
+                            builder().
+                            chatId(chat.getId().toString()).
+                            replyMarkup(keyboardResolver.getKeyboard(chats.getState(chat))).
+                            text("Используйте кнопки для взаимодействия с ботом!").
+                            build()
+            );
         }
-        return message;
+        return result;
     }
 }

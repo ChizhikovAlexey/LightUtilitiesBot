@@ -1,25 +1,30 @@
 package chizhikov.utilitiesbot.data;
 
 import chizhikov.utilitiesbot.data.dao.MonthDataDao;
+import chizhikov.utilitiesbot.data.dao.QueriesManager;
 import chizhikov.utilitiesbot.data.dao.TariffDao;
 import chizhikov.utilitiesbot.data.entities.MonthData;
 import chizhikov.utilitiesbot.data.entities.Report;
 import chizhikov.utilitiesbot.data.entities.Tariff;
+import org.glassfish.grizzly.utils.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 
 @Component("DataManager")
 public class DataManager {
     private final MonthDataDao monthDataDao;
     private final TariffDao tariffDao;
+    private final QueriesManager queriesManager;
 
     @Autowired
-    public DataManager(MonthDataDao monthDataDao, TariffDao tariffDao) {
+    public DataManager(MonthDataDao monthDataDao, TariffDao tariffDao, QueriesManager queriesManager) {
         this.monthDataDao = monthDataDao;
         this.tariffDao = tariffDao;
+        this.queriesManager = queriesManager;
     }
 
     public void addMonthData(MonthData monthData) throws SQLException {
@@ -62,6 +67,10 @@ public class DataManager {
         MonthData actualMonthData = getActualMonthData();
         monthDataDao.deleteById(actualMonthData.getId());
         return actualMonthData;
+    }
+
+    public List<Pair<MonthData, Tariff>> getAllDataForOds() throws SQLException {
+        return queriesManager.getAllData();
     }
 }
 

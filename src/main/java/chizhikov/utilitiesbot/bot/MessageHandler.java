@@ -1,12 +1,12 @@
 package chizhikov.utilitiesbot.bot;
 
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
+import chizhikov.utilitiesbot.bot.extensions.MessageExtension;
 import chizhikov.utilitiesbot.bot.msgprocessors.AbstractMessageProcessor;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 
 import java.util.HashMap;
@@ -29,7 +29,7 @@ public class MessageHandler {
         this.chats = chats;
     }
 
-    public SendMessage process(Chat chat, String message) throws MessageProcessingException {
+    public MessageExtension process(Chat chat, String message) throws MessageProcessingException {
         try {
             return msgProcessors.get(chats.getState(chat)).execute(chat, message);
         } catch (NullPointerException npe) {

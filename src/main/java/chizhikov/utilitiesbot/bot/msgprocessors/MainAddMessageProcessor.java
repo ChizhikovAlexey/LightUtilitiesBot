@@ -2,6 +2,7 @@ package chizhikov.utilitiesbot.bot.msgprocessors;
 
 import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
+import chizhikov.utilitiesbot.bot.extensions.MessageExtension;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
 import chizhikov.utilitiesbot.data.DataManager;
@@ -22,23 +23,38 @@ public class MainAddMessageProcessor extends AbstractMessageProcessor {
     }
 
     @Override
-    public SendMessage execute(Chat chat, String text) throws MessageProcessingException {
-        SendMessage message = new SendMessage();
-        message.setChatId(chat.getId().toString());
+    public MessageExtension execute(Chat chat, String text) throws MessageProcessingException {
+        MessageExtension result = new MessageExtension();
         switch (text) {
             case "Показания счётчиков" -> {
                 chats.setState(chat, ChatState.ADD_MD_DATE);
-                message.setText(ChatState.ADD_MD_DATE.message);
+                result.setSendMessage(
+                        SendMessage.
+                                builder().
+                                chatId(chat.getId().toString()).
+                                text(ChatState.ADD_MD_DATE.message).
+                                build()
+                );
             }
             case "Новый тариф" -> {
                 chats.setState(chat, ChatState.ADD_T_DATE);
-                message.setText(ChatState.ADD_T_DATE.message);
+                result.setSendMessage(
+                        SendMessage.
+                                builder().
+                                chatId(chat.getId().toString()).
+                                text(ChatState.ADD_T_DATE.message).
+                                build()
+                );
             }
-            default -> {
-                message.setText("Используйте кнопки для взаимодействия с ботом!");
-                message.setReplyMarkup(keyboardResolver.getKeyboard(chats.getState(chat)));
-            }
+            default -> result.setSendMessage(
+                    SendMessage.
+                            builder().
+                            chatId(chat.getId().toString()).
+                            replyMarkup(keyboardResolver.getKeyboard(chats.getState(chat))).
+                            text("Используйте кнопки для взаимодействия с ботом!").
+                            build()
+            );
         }
-        return message;
+        return result;
     }
 }

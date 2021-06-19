@@ -39,7 +39,6 @@ public class MainMessageProcessor extends AbstractMessageProcessor {
             }
             case "Добавить новые данные" -> {
                 chats.setState(chat, ChatState.MAIN_ADD);
-                chats.setState(chat, ChatState.MAIN_GET);
                 result.setSendMessage(
                         SendMessage.
                                 builder().

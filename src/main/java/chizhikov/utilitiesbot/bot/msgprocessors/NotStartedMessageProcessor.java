@@ -1,4 +1,4 @@
-package chizhikov.utilitiesbot.bot.noncommands;
+package chizhikov.utilitiesbot.bot.msgprocessors;
 
 import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
@@ -12,9 +12,9 @@ import org.telegram.telegrambots.meta.api.objects.Chat;
 import java.util.Set;
 
 @Component
-public class NotStartedHandler extends AbstractNonCommand {
+public class NotStartedMessageProcessor extends AbstractMessageProcessor {
 
-    public NotStartedHandler(Chats chats, DataManager dataManager, KeyboardResolver keyboardResolver) {
+    public NotStartedMessageProcessor(Chats chats, DataManager dataManager, KeyboardResolver keyboardResolver) {
         super(chats, dataManager, keyboardResolver);
         states = Set.of(
                 ChatState.NOT_STARTED

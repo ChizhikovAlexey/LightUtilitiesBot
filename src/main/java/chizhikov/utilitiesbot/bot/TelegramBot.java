@@ -20,10 +20,10 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
     private final Chats chats;
     private final String username;
     private final String token;
-    private final NonCommandUpdateHandler nonCommandHandler;
+    private final MessageHandler nonCommandHandler;
     private final KeyboardResolver keyboardResolver;
 
-    public TelegramBot(String username, String token, List<BotCommand> listOfCommands, Chats chats, NonCommandUpdateHandler nonCommandUpdateHandler, KeyboardResolver keyboardResolver) {
+    public TelegramBot(String username, String token, List<BotCommand> listOfCommands, Chats chats, MessageHandler nonCommandUpdateHandler, KeyboardResolver keyboardResolver) {
         this.username = username;
         this.token = token;
         this.chats = chats;

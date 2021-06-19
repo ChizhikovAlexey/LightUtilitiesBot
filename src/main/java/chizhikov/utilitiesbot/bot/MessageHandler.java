@@ -1,7 +1,7 @@
 package chizhikov.utilitiesbot.bot;
 
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
-import chizhikov.utilitiesbot.bot.noncommands.AbstractNonCommand;
+import chizhikov.utilitiesbot.bot.msgprocessors.AbstractMessageProcessor;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +14,16 @@ import java.util.Map;
 import java.util.Set;
 
 @Component
-public class NonCommandUpdateHandler {
-    private final Map<ChatState, AbstractNonCommand> nonCommandMap;
+public class MessageHandler {
+    private final Map<ChatState, AbstractMessageProcessor> msgProcessors;
     private final Chats chats;
 
     @Autowired
-    public NonCommandUpdateHandler(Set<AbstractNonCommand> nonCommandSet, Chats chats) {
-        nonCommandMap = new HashMap<>();
-        for (AbstractNonCommand nonCommand : nonCommandSet) {
+    public MessageHandler(Set<AbstractMessageProcessor> nonCommandSet, Chats chats) {
+        msgProcessors = new HashMap<>();
+        for (AbstractMessageProcessor nonCommand : nonCommandSet) {
             for (ChatState state : nonCommand.getStates()) {
-                nonCommandMap.put(state, nonCommand);
+                msgProcessors.put(state, nonCommand);
             }
         }
         this.chats = chats;
@@ -31,7 +31,7 @@ public class NonCommandUpdateHandler {
 
     public SendMessage process(Chat chat, String message) throws MessageProcessingException {
         try {
-            return nonCommandMap.get(chats.getState(chat)).execute(chat, message);
+            return msgProcessors.get(chats.getState(chat)).execute(chat, message);
         } catch (NullPointerException npe) {
             throw new MessageProcessingException("Не найден обработчик команды для состояния " + chats.getState(chat) + "!", npe);
         }

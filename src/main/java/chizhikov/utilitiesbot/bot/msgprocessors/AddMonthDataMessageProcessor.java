@@ -1,11 +1,11 @@
-package chizhikov.utilitiesbot.bot.noncommands;
+package chizhikov.utilitiesbot.bot.msgprocessors;
 
 import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
 import chizhikov.utilitiesbot.data.DataManager;
-import chizhikov.utilitiesbot.data.entities.Tariff;
+import chizhikov.utilitiesbot.data.entities.MonthData;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -18,18 +18,19 @@ import java.util.Map;
 import java.util.Set;
 
 @Component
-public class AddTariffNonCommand extends AbstractNonCommand {
-    private final Map<Chat, Tariff> tempTariffMap;
+public class AddMonthDataMessageProcessor extends AbstractMessageProcessor {
+    private final Map<Chat, MonthData> tempMonthDataMap;
 
-    public AddTariffNonCommand(Chats chats, DataManager dataManager, KeyboardResolver keyboardResolver) {
+    public AddMonthDataMessageProcessor(Chats chats, DataManager dataManager, KeyboardResolver keyboardResolver) {
         super(chats, dataManager, keyboardResolver);
-        tempTariffMap = new HashMap<>();
+        tempMonthDataMap = new HashMap<>();
         states = Set.of(
-                ChatState.ADD_T_DATE,
-                ChatState.ADD_T_ELECTRICITY,
-                ChatState.ADD_T_HW,
-                ChatState.ADD_T_CW,
-                ChatState.ADD_T_DRAINAGE
+                ChatState.ADD_MD_DATE,
+                ChatState.ADD_MD_ELECTRICITY,
+                ChatState.ADD_MD_HW_BATH,
+                ChatState.ADD_MD_CW_BATH,
+                ChatState.ADD_MD_HW_KITCHEN,
+                ChatState.ADD_MD_CW_KITCHEN
         );
     }
 
@@ -39,48 +40,57 @@ public class AddTariffNonCommand extends AbstractNonCommand {
         message.setChatId(chat.getId().toString());
         ChatState chatState = chats.getState(chat);
         switch (chatState) {
-            case ADD_T_DATE -> {
+            case ADD_MD_DATE -> {
                 try {
-                    tempTariffMap.put(chat, new Tariff());
-                    tempTariffMap.get(chat).setDate(LocalDate.parse(text));
-                    chats.setState(chat, ChatState.ADD_T_ELECTRICITY);
+                    tempMonthDataMap.put(chat, new MonthData());
+                    tempMonthDataMap.get(chat).setDate(LocalDate.parse(text));
+                    chats.setState(chat, ChatState.ADD_MD_ELECTRICITY);
                 } catch (DateTimeParseException exc) {
                     throw new MessageProcessingException("Неправильный формат даты!", exc);
                 }
-                message.setText(ChatState.ADD_T_ELECTRICITY.message);
+                message.setText(ChatState.ADD_MD_ELECTRICITY.message);
             }
-            case ADD_T_ELECTRICITY -> {
+            case ADD_MD_ELECTRICITY -> {
                 try {
-                    tempTariffMap.get(chat).setElectricity(Double.valueOf(text));
-                    chats.setState(chat, ChatState.ADD_T_HW);
+                    tempMonthDataMap.get(chat).setElectricity(Integer.valueOf(text));
+                    chats.setState(chat, ChatState.ADD_MD_HW_BATH);
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
-                message.setText(ChatState.ADD_T_HW.message);
+                message.setText(ChatState.ADD_MD_HW_BATH.message);
             }
-            case ADD_T_HW -> {
+            case ADD_MD_HW_BATH -> {
                 try {
-                    tempTariffMap.get(chat).setHotWater(Double.valueOf(text));
-                    chats.setState(chat, ChatState.ADD_T_CW);
+                    tempMonthDataMap.get(chat).setHotWaterBath(Integer.valueOf(text));
+                    chats.setState(chat, ChatState.ADD_MD_CW_BATH);
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
-                message.setText(ChatState.ADD_T_CW.message);
+                message.setText(ChatState.ADD_MD_CW_BATH.message);
             }
-            case ADD_T_CW -> {
+            case ADD_MD_CW_BATH -> {
                 try {
-                    tempTariffMap.get(chat).setColdWater(Double.valueOf(text));
-                    chats.setState(chat, ChatState.ADD_T_DRAINAGE);
+                    tempMonthDataMap.get(chat).setColdWaterBath(Integer.valueOf(text));
+                    chats.setState(chat, ChatState.ADD_MD_HW_KITCHEN);
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
-                message.setText(ChatState.ADD_T_DRAINAGE.message);
+                message.setText(ChatState.ADD_MD_HW_KITCHEN.message);
             }
-            case ADD_T_DRAINAGE -> {
+            case ADD_MD_HW_KITCHEN -> {
                 try {
-                    tempTariffMap.get(chat).setDrainage(Double.valueOf(text));
+                    tempMonthDataMap.get(chat).setHotWaterKitchen(Integer.valueOf(text));
+                    chats.setState(chat, ChatState.ADD_MD_CW_KITCHEN);
+                } catch (NumberFormatException exc) {
+                    throw new MessageProcessingException("Введено некорректное число!", exc);
+                }
+                message.setText(ChatState.ADD_MD_CW_KITCHEN.message);
+            }
+            case ADD_MD_CW_KITCHEN -> {
+                try {
+                    tempMonthDataMap.get(chat).setColdWaterKitchen(Integer.valueOf(text));
                     chats.setState(chat, ChatState.MAIN);
-                    dataManager.addTariff(tempTariffMap.get(chat));
+                    dataManager.addMonthData(tempMonthDataMap.get(chat));
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 } catch (SQLException exc) {
@@ -88,7 +98,6 @@ public class AddTariffNonCommand extends AbstractNonCommand {
                 }
                 message.setText("Данные сохранены!");
             }
-            default -> throw new MessageProcessingException("Некорректное состояние бота!");
         }
         return message;
     }

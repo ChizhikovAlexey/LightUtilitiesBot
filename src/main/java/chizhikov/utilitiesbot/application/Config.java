@@ -1,7 +1,7 @@
 package chizhikov.utilitiesbot.application;
 
 import chizhikov.utilitiesbot.bot.KeyboardResolver;
-import chizhikov.utilitiesbot.bot.NonCommandUpdateHandler;
+import chizhikov.utilitiesbot.bot.MessageHandler;
 import chizhikov.utilitiesbot.bot.TelegramBot;
 import chizhikov.utilitiesbot.bot.userdata.Chats;
 import chizhikov.utilitiesbot.data.dao.MonthDataDao;
@@ -36,7 +36,7 @@ public class Config {
     public TelegramBot telegramBot(
             List<BotCommand> listOfCommands,
             Chats chats,
-            NonCommandUpdateHandler nonCommandUpdateHandler,
+            MessageHandler nonCommandUpdateHandler,
             KeyboardResolver keyboardResolver) {
         return new TelegramBot(
                 BOT_USERNAME,

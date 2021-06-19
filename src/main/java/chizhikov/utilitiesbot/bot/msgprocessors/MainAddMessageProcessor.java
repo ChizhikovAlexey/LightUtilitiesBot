@@ -1,4 +1,4 @@
-package chizhikov.utilitiesbot.bot.noncommands;
+package chizhikov.utilitiesbot.bot.msgprocessors;
 
 import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
@@ -12,9 +12,9 @@ import org.telegram.telegrambots.meta.api.objects.Chat;
 import java.util.Set;
 
 @Component
-public class MainAddNonCommand extends AbstractNonCommand {
+public class MainAddMessageProcessor extends AbstractMessageProcessor {
 
-    public MainAddNonCommand(Chats chats, DataManager dataManager, KeyboardResolver keyboardResolver) {
+    public MainAddMessageProcessor(Chats chats, DataManager dataManager, KeyboardResolver keyboardResolver) {
         super(chats, dataManager, keyboardResolver);
         states = Set.of(
                 ChatState.MAIN_ADD

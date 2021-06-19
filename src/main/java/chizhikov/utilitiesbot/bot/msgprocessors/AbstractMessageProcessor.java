@@ -1,4 +1,4 @@
-package chizhikov.utilitiesbot.bot.noncommands;
+package chizhikov.utilitiesbot.bot.msgprocessors;
 
 import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public abstract class AbstractNonCommand {
+public abstract class AbstractMessageProcessor {
     protected final Chats chats;
     protected final DataManager dataManager;
     /**
@@ -21,7 +21,7 @@ public abstract class AbstractNonCommand {
     protected Set<ChatState> states;
     protected final KeyboardResolver keyboardResolver;
 
-    public AbstractNonCommand(Chats chats, DataManager dataManager, KeyboardResolver keyboardResolver) {
+    public AbstractMessageProcessor(Chats chats, DataManager dataManager, KeyboardResolver keyboardResolver) {
         this.chats = chats;
         this.dataManager = dataManager;
         this.keyboardResolver = keyboardResolver;

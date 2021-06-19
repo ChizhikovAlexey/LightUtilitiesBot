@@ -1,4 +1,4 @@
-package chizhikov.utilitiesbot.bot.noncommands;
+package chizhikov.utilitiesbot.bot.msgprocessors;
 
 import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
@@ -13,9 +13,9 @@ import java.sql.SQLException;
 import java.util.Set;
 
 @Component
-public class MainGetNonCommand extends AbstractNonCommand {
+public class MainGetMessageProcessor extends AbstractMessageProcessor {
 
-    public MainGetNonCommand(Chats chats, DataManager dataManager, KeyboardResolver keyboardResolver) {
+    public MainGetMessageProcessor(Chats chats, DataManager dataManager, KeyboardResolver keyboardResolver) {
         super(chats, dataManager, keyboardResolver);
         states = Set.of(
                 ChatState.MAIN_GET

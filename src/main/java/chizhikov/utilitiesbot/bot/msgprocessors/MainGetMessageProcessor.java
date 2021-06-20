@@ -108,6 +108,7 @@ public class MainGetMessageProcessor extends AbstractMessageProcessor {
                         SendDocument.
                                 builder().
                                 chatId(chat.getId().toString()).
+                                replyMarkup(keyboardResolver.getKeyboard(chats.getState(chat))).
                                 document(document).
                                 build()
                 );

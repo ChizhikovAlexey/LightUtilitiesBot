@@ -4,7 +4,7 @@ import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
 import chizhikov.utilitiesbot.bot.extensions.MessageExtension;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
-import chizhikov.utilitiesbot.bot.userdata.Chats;
+import chizhikov.utilitiesbot.bot.userdata.ChatsManager;
 import chizhikov.utilitiesbot.data.DataManager;
 import chizhikov.utilitiesbot.data.export.ods.OdsExporter;
 import org.springframework.stereotype.Component;
@@ -20,8 +20,8 @@ import java.util.Set;
 public class MainGetMessageProcessor extends AbstractMessageProcessor {
     private final OdsExporter odsExporter;
 
-    public MainGetMessageProcessor(Chats chats, DataManager dataManager, KeyboardResolver keyboardResolver, OdsExporter odsExporter) {
-        super(chats, dataManager, keyboardResolver);
+    public MainGetMessageProcessor(ChatsManager chatsManager, DataManager dataManager, KeyboardResolver keyboardResolver, OdsExporter odsExporter) {
+        super(chatsManager, dataManager, keyboardResolver);
         this.odsExporter = odsExporter;
         states = Set.of(
                 ChatState.MAIN_GET
@@ -33,7 +33,7 @@ public class MainGetMessageProcessor extends AbstractMessageProcessor {
         MessageExtension result = new MessageExtension();
         switch (text) {
             case "Актуальные данные за месяц" -> {
-                chats.setState(chat, ChatState.MAIN);
+                chatsManager.setState(chat, ChatState.MAIN);
                 String answer;
                 try {
                     answer = dataManager.getActualMonthData().toString();
@@ -54,7 +54,7 @@ public class MainGetMessageProcessor extends AbstractMessageProcessor {
 
             }
             case "Последний короткий отчёт" -> {
-                chats.setState(chat, ChatState.MAIN);
+                chatsManager.setState(chat, ChatState.MAIN);
                 String answer;
                 try {
                     answer = dataManager.getActualShortRepot();
@@ -74,7 +74,7 @@ public class MainGetMessageProcessor extends AbstractMessageProcessor {
                 );
             }
             case "Актуальный тариф" -> {
-                chats.setState(chat, ChatState.MAIN);
+                chatsManager.setState(chat, ChatState.MAIN);
                 String answer;
                 try {
                     answer = dataManager.getActualTariff().toString();
@@ -94,7 +94,7 @@ public class MainGetMessageProcessor extends AbstractMessageProcessor {
                 );
             }
             case "Таблица со всеми показаниями" -> {
-                chats.setState(chat, ChatState.MAIN);
+                chatsManager.setState(chat, ChatState.MAIN);
                 InputFile document;
                 try {
                     document = new InputFile(odsExporter.getOds());
@@ -108,7 +108,7 @@ public class MainGetMessageProcessor extends AbstractMessageProcessor {
                         SendDocument.
                                 builder().
                                 chatId(chat.getId().toString()).
-                                replyMarkup(keyboardResolver.getKeyboard(chats.getState(chat))).
+                                replyMarkup(keyboardResolver.getKeyboard(chatsManager.getState(chat))).
                                 document(document).
                                 build()
                 );
@@ -117,7 +117,7 @@ public class MainGetMessageProcessor extends AbstractMessageProcessor {
                     SendMessage.
                             builder().
                             chatId(chat.getId().toString()).
-                            replyMarkup(keyboardResolver.getKeyboard(chats.getState(chat))).
+                            replyMarkup(keyboardResolver.getKeyboard(chatsManager.getState(chat))).
                             text("Используйте кнопки для взаимодействия с ботом!").
                             build()
             );

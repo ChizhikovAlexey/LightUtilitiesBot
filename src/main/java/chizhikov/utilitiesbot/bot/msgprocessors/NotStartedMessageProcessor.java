@@ -4,7 +4,7 @@ import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
 import chizhikov.utilitiesbot.bot.extensions.MessageExtension;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
-import chizhikov.utilitiesbot.bot.userdata.Chats;
+import chizhikov.utilitiesbot.bot.userdata.ChatsManager;
 import chizhikov.utilitiesbot.data.DataManager;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -15,8 +15,8 @@ import java.util.Set;
 @Component
 public class NotStartedMessageProcessor extends AbstractMessageProcessor {
 
-    public NotStartedMessageProcessor(Chats chats, DataManager dataManager, KeyboardResolver keyboardResolver) {
-        super(chats, dataManager, keyboardResolver);
+    public NotStartedMessageProcessor(ChatsManager chatsManager, DataManager dataManager, KeyboardResolver keyboardResolver) {
+        super(chatsManager, dataManager, keyboardResolver);
         states = Set.of(
                 ChatState.NOT_STARTED
         );

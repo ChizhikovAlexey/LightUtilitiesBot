@@ -1,7 +1,7 @@
 package chizhikov.utilitiesbot.bot.commands;
 
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
-import chizhikov.utilitiesbot.bot.userdata.Chats;
+import chizhikov.utilitiesbot.bot.userdata.ChatsManager;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -11,11 +11,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Slf4j
 public abstract class AbstractCommand extends BotCommand {
-    protected final Chats chats;
+    protected final ChatsManager chatsManager;
 
-    public AbstractCommand(String commandIdentifier, String description, Chats chats) {
+    public AbstractCommand(String commandIdentifier, String description, ChatsManager chatsManager) {
         super(commandIdentifier, description);
-        this.chats = chats;
+        this.chatsManager = chatsManager;
     }
 
     void sendAnswer(AbsSender absSender, Chat chat, String commandName, String text) {
@@ -29,7 +29,7 @@ public abstract class AbstractCommand extends BotCommand {
     void sendWrongStateAnswer(AbsSender absSender, Chat chat) {
         try {
             String text;
-            if (chats.getState(chat) == ChatState.NOT_STARTED) {
+            if (chatsManager.getState(chat) == ChatState.NOT_STARTED) {
                 text = "Поздоровайтесь с ботом командой /start =)";
             } else {
                 text = "Выполнение предыдущей команды не закончено. Используйте команду /cancel для её отмены и повторите ввод!";

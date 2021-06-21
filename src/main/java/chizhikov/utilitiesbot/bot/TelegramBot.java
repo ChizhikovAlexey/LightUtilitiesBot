@@ -3,7 +3,7 @@ package chizhikov.utilitiesbot.bot;
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
 import chizhikov.utilitiesbot.bot.extensions.MessageExtension;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
-import chizhikov.utilitiesbot.bot.userdata.Chats;
+import chizhikov.utilitiesbot.bot.userdata.ChatsManager;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
@@ -18,16 +18,16 @@ import java.util.List;
 
 @Slf4j
 public class TelegramBot extends TelegramLongPollingCommandBot {
-    private final Chats chats;
+    private final ChatsManager chatsManager;
     private final String username;
     private final String token;
     private final MessageHandler messageHandler;
     private final KeyboardResolver keyboardResolver;
 
-    public TelegramBot(String username, String token, List<BotCommand> listOfCommands, Chats chats, MessageHandler nonCommandUpdateHandler, KeyboardResolver keyboardResolver) {
+    public TelegramBot(String username, String token, List<BotCommand> listOfCommands, ChatsManager chatsManager, MessageHandler nonCommandUpdateHandler, KeyboardResolver keyboardResolver) {
         this.username = username;
         this.token = token;
-        this.chats = chats;
+        this.chatsManager = chatsManager;
         messageHandler = nonCommandUpdateHandler;
         this.keyboardResolver = keyboardResolver;
         listOfCommands.forEach(this::register);
@@ -47,7 +47,7 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
     public void processNonCommandUpdate(Update update) {
         Message message = update.getMessage();
         Chat chat = message.getChat();
-        ChatState chatState = chats.getState(chat);
+        ChatState chatState = chatsManager.getState(chat);
         try {
             sendMessageExtension(messageHandler.process(chat, message.getText()));
         } catch (MessageProcessingException msgExc) {
@@ -58,15 +58,15 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
                             build()
             );
             if (msgExc.getCause() instanceof SQLException) {
-                chats.setState(chat, ChatState.MAIN);
+                chatsManager.setState(chat, ChatState.MAIN);
             } else {
-                chats.setState(chat, chatState);
+                chatsManager.setState(chat, chatState);
             }
             sendMessage(
                     SendMessage.builder().
                             chatId(chat.getId().toString()).
-                            text(chats.getState(chat).message).
-                            replyMarkup(keyboardResolver.getKeyboard(chats.getState(chat))).
+                            text(chatsManager.getState(chat).message).
+                            replyMarkup(keyboardResolver.getKeyboard(chatsManager.getState(chat))).
                             build()
             );
         }

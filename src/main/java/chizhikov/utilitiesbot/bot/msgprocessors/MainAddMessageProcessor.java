@@ -4,7 +4,7 @@ import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
 import chizhikov.utilitiesbot.bot.extensions.MessageExtension;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
-import chizhikov.utilitiesbot.bot.userdata.Chats;
+import chizhikov.utilitiesbot.bot.userdata.ChatsManager;
 import chizhikov.utilitiesbot.data.DataManager;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -15,8 +15,8 @@ import java.util.Set;
 @Component
 public class MainAddMessageProcessor extends AbstractMessageProcessor {
 
-    public MainAddMessageProcessor(Chats chats, DataManager dataManager, KeyboardResolver keyboardResolver) {
-        super(chats, dataManager, keyboardResolver);
+    public MainAddMessageProcessor(ChatsManager chatsManager, DataManager dataManager, KeyboardResolver keyboardResolver) {
+        super(chatsManager, dataManager, keyboardResolver);
         states = Set.of(
                 ChatState.MAIN_ADD
         );
@@ -27,23 +27,23 @@ public class MainAddMessageProcessor extends AbstractMessageProcessor {
         MessageExtension result = new MessageExtension();
         switch (text) {
             case "Показания счётчиков" -> {
-                chats.setState(chat, ChatState.ADD_MD_DATE);
+                chatsManager.setState(chat, ChatState.ADD_MD_DATE);
                 result.setSendMessage(
                         SendMessage.
                                 builder().
                                 chatId(chat.getId().toString()).
-                                replyMarkup(keyboardResolver.getKeyboard(chats.getState(chat))).
+                                replyMarkup(keyboardResolver.getKeyboard(chatsManager.getState(chat))).
                                 text(ChatState.ADD_MD_DATE.message).
                                 build()
                 );
             }
             case "Новый тариф" -> {
-                chats.setState(chat, ChatState.ADD_T_DATE);
+                chatsManager.setState(chat, ChatState.ADD_T_DATE);
                 result.setSendMessage(
                         SendMessage.
                                 builder().
                                 chatId(chat.getId().toString()).
-                                replyMarkup(keyboardResolver.getKeyboard(chats.getState(chat))).
+                                replyMarkup(keyboardResolver.getKeyboard(chatsManager.getState(chat))).
                                 text(ChatState.ADD_T_DATE.message).
                                 build()
                 );
@@ -52,7 +52,7 @@ public class MainAddMessageProcessor extends AbstractMessageProcessor {
                     SendMessage.
                             builder().
                             chatId(chat.getId().toString()).
-                            replyMarkup(keyboardResolver.getKeyboard(chats.getState(chat))).
+                            replyMarkup(keyboardResolver.getKeyboard(chatsManager.getState(chat))).
                             text("Используйте кнопки для взаимодействия с ботом!").
                             build()
             );

@@ -3,7 +3,7 @@ package chizhikov.utilitiesbot.application;
 import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.MessageHandler;
 import chizhikov.utilitiesbot.bot.TelegramBot;
-import chizhikov.utilitiesbot.bot.userdata.Chats;
+import chizhikov.utilitiesbot.bot.userdata.ChatsManager;
 import chizhikov.utilitiesbot.data.dao.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -37,14 +37,14 @@ public class Config {
     @Bean("TelegramBot")
     public TelegramBot telegramBot(
             List<BotCommand> listOfCommands,
-            Chats chats,
+            ChatsManager chatsManager,
             MessageHandler nonCommandUpdateHandler,
             KeyboardResolver keyboardResolver) {
         return new TelegramBot(
                 BOT_USERNAME,
                 BOT_TOKEN,
                 listOfCommands,
-                chats,
+                chatsManager,
                 nonCommandUpdateHandler,
                 keyboardResolver);
     }

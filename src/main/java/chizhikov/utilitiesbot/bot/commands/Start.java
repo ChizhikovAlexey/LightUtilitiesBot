@@ -2,7 +2,7 @@ package chizhikov.utilitiesbot.bot.commands;
 
 import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
-import chizhikov.utilitiesbot.bot.userdata.Chats;
+import chizhikov.utilitiesbot.bot.userdata.ChatsManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -15,15 +15,15 @@ public class Start extends AbstractCommand {
     private final KeyboardResolver keyboardResolver;
 
     @Autowired
-    public Start(Chats chats, KeyboardResolver keyboardResolver) {
-        super("start", "начало работы", chats);
+    public Start(ChatsManager chatsManager, KeyboardResolver keyboardResolver) {
+        super("start", "начало работы", chatsManager);
         this.keyboardResolver = keyboardResolver;
     }
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        if (chats.getState(chat) == ChatState.NOT_STARTED) {
-            chats.setState(chat, ChatState.MAIN);
+        if (chatsManager.getState(chat) == ChatState.NOT_STARTED) {
+            chatsManager.setState(chat, ChatState.MAIN);
             sendMessage(
                     absSender,
                     SendMessage.

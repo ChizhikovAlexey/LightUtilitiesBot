@@ -2,7 +2,7 @@ package chizhikov.utilitiesbot.bot.commands;
 
 import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
-import chizhikov.utilitiesbot.bot.userdata.Chats;
+import chizhikov.utilitiesbot.bot.userdata.ChatsManager;
 import chizhikov.utilitiesbot.data.DataManager;
 import chizhikov.utilitiesbot.data.entities.MonthData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +20,15 @@ public class DeleteActualMonthData extends AbstractCommand {
     private final KeyboardResolver keyboardResolver;
 
     @Autowired
-    public DeleteActualMonthData(Chats chats, DataManager dataManager, KeyboardResolver keyboardResolver) {
-        super("delete_actual_month_data", "удалить данный за последний месяц", chats);
+    public DeleteActualMonthData(ChatsManager chatsManager, DataManager dataManager, KeyboardResolver keyboardResolver) {
+        super("delete_actual_month_data", "удалить данный за последний месяц", chatsManager);
         this.dataManager = dataManager;
         this.keyboardResolver = keyboardResolver;
     }
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        if (chats.getState(chat) == ChatState.MAIN) {
+        if (chatsManager.getState(chat) == ChatState.MAIN) {
             try {
                 MonthData monthData = dataManager.deleteActualMonthData();
                 sendMessage(

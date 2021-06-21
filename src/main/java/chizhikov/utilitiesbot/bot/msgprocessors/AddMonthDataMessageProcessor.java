@@ -4,7 +4,7 @@ import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
 import chizhikov.utilitiesbot.bot.extensions.MessageExtension;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
-import chizhikov.utilitiesbot.bot.userdata.Chats;
+import chizhikov.utilitiesbot.bot.userdata.ChatsManager;
 import chizhikov.utilitiesbot.data.DataManager;
 import chizhikov.utilitiesbot.data.entities.MonthData;
 import org.springframework.stereotype.Component;
@@ -22,8 +22,8 @@ import java.util.Set;
 public class AddMonthDataMessageProcessor extends AbstractMessageProcessor {
     private final Map<Chat, MonthData> tempMonthDataMap;
 
-    public AddMonthDataMessageProcessor(Chats chats, DataManager dataManager, KeyboardResolver keyboardResolver) {
-        super(chats, dataManager, keyboardResolver);
+    public AddMonthDataMessageProcessor(ChatsManager chatsManager, DataManager dataManager, KeyboardResolver keyboardResolver) {
+        super(chatsManager, dataManager, keyboardResolver);
         tempMonthDataMap = new HashMap<>();
         states = Set.of(
                 ChatState.ADD_MD_DATE,
@@ -38,7 +38,7 @@ public class AddMonthDataMessageProcessor extends AbstractMessageProcessor {
     @Override
     public MessageExtension execute(Chat chat, String text) throws MessageProcessingException {
         MessageExtension result = new MessageExtension();
-        ChatState chatState = chats.getState(chat);
+        ChatState chatState = chatsManager.getState(chat);
         switch (chatState) {
             case ADD_MD_DATE -> {
                 try {
@@ -48,7 +48,7 @@ public class AddMonthDataMessageProcessor extends AbstractMessageProcessor {
                     } else {
                         tempMonthDataMap.get(chat).setDate(LocalDate.parse(text));
                     }
-                    chats.setState(chat, ChatState.ADD_MD_ELECTRICITY);
+                    chatsManager.setState(chat, ChatState.ADD_MD_ELECTRICITY);
                 } catch (DateTimeParseException exc) {
                     throw new MessageProcessingException("Неправильный формат даты!", exc);
                 }
@@ -63,7 +63,7 @@ public class AddMonthDataMessageProcessor extends AbstractMessageProcessor {
             case ADD_MD_ELECTRICITY -> {
                 try {
                     tempMonthDataMap.get(chat).setElectricity(Integer.valueOf(text));
-                    chats.setState(chat, ChatState.ADD_MD_HW_BATH);
+                    chatsManager.setState(chat, ChatState.ADD_MD_HW_BATH);
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
@@ -78,7 +78,7 @@ public class AddMonthDataMessageProcessor extends AbstractMessageProcessor {
             case ADD_MD_HW_BATH -> {
                 try {
                     tempMonthDataMap.get(chat).setHotWaterBath(Integer.valueOf(text));
-                    chats.setState(chat, ChatState.ADD_MD_CW_BATH);
+                    chatsManager.setState(chat, ChatState.ADD_MD_CW_BATH);
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
@@ -93,7 +93,7 @@ public class AddMonthDataMessageProcessor extends AbstractMessageProcessor {
             case ADD_MD_CW_BATH -> {
                 try {
                     tempMonthDataMap.get(chat).setColdWaterBath(Integer.valueOf(text));
-                    chats.setState(chat, ChatState.ADD_MD_HW_KITCHEN);
+                    chatsManager.setState(chat, ChatState.ADD_MD_HW_KITCHEN);
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
@@ -108,7 +108,7 @@ public class AddMonthDataMessageProcessor extends AbstractMessageProcessor {
             case ADD_MD_HW_KITCHEN -> {
                 try {
                     tempMonthDataMap.get(chat).setHotWaterKitchen(Integer.valueOf(text));
-                    chats.setState(chat, ChatState.ADD_MD_CW_KITCHEN);
+                    chatsManager.setState(chat, ChatState.ADD_MD_CW_KITCHEN);
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
@@ -123,7 +123,7 @@ public class AddMonthDataMessageProcessor extends AbstractMessageProcessor {
             case ADD_MD_CW_KITCHEN -> {
                 try {
                     tempMonthDataMap.get(chat).setColdWaterKitchen(Integer.valueOf(text));
-                    chats.setState(chat, ChatState.MAIN);
+                    chatsManager.setState(chat, ChatState.MAIN);
                     dataManager.addMonthData(tempMonthDataMap.get(chat));
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);

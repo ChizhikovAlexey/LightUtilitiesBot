@@ -2,7 +2,7 @@ package chizhikov.utilitiesbot.bot.commands;
 
 import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
-import chizhikov.utilitiesbot.bot.userdata.Chats;
+import chizhikov.utilitiesbot.bot.userdata.ChatsManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -15,15 +15,15 @@ public class Cancel extends AbstractCommand {
     private final KeyboardResolver keyboardResolver;
 
     @Autowired
-    public Cancel(Chats chats, KeyboardResolver keyboardResolver) {
-        super("cancel", "прервать обработку команды", chats);
+    public Cancel(ChatsManager chatsManager, KeyboardResolver keyboardResolver) {
+        super("cancel", "прервать обработку команды", chatsManager);
         this.keyboardResolver = keyboardResolver;
     }
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        if (chats.getState(chat) != ChatState.NOT_STARTED && chats.getState(chat) != ChatState.MAIN) {
-            chats.setState(chat, ChatState.MAIN);
+        if (chatsManager.getState(chat) != ChatState.NOT_STARTED && chatsManager.getState(chat) != ChatState.MAIN) {
+            chatsManager.setState(chat, ChatState.MAIN);
             sendMessage(
                     absSender,
                     SendMessage.
@@ -33,7 +33,7 @@ public class Cancel extends AbstractCommand {
                             replyMarkup(keyboardResolver.getKeyboard(ChatState.MAIN)).
                             build()
             );
-        } else if (chats.getState(chat) == ChatState.MAIN) {
+        } else if (chatsManager.getState(chat) == ChatState.MAIN) {
             sendMessage(
                     absSender,
                     SendMessage.

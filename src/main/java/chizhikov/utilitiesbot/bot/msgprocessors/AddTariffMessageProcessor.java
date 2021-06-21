@@ -4,7 +4,7 @@ import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.exceptions.MessageProcessingException;
 import chizhikov.utilitiesbot.bot.extensions.MessageExtension;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
-import chizhikov.utilitiesbot.bot.userdata.Chats;
+import chizhikov.utilitiesbot.bot.userdata.ChatsManager;
 import chizhikov.utilitiesbot.data.DataManager;
 import chizhikov.utilitiesbot.data.entities.Tariff;
 import org.springframework.stereotype.Component;
@@ -22,8 +22,8 @@ import java.util.Set;
 public class AddTariffMessageProcessor extends AbstractMessageProcessor {
     private final Map<Chat, Tariff> tempTariffMap;
 
-    public AddTariffMessageProcessor(Chats chats, DataManager dataManager, KeyboardResolver keyboardResolver) {
-        super(chats, dataManager, keyboardResolver);
+    public AddTariffMessageProcessor(ChatsManager chatsManager, DataManager dataManager, KeyboardResolver keyboardResolver) {
+        super(chatsManager, dataManager, keyboardResolver);
         tempTariffMap = new HashMap<>();
         states = Set.of(
                 ChatState.ADD_T_DATE,
@@ -37,7 +37,7 @@ public class AddTariffMessageProcessor extends AbstractMessageProcessor {
     @Override
     public MessageExtension execute(Chat chat, String text) throws MessageProcessingException {
         MessageExtension result = new MessageExtension();
-        ChatState chatState = chats.getState(chat);
+        ChatState chatState = chatsManager.getState(chat);
         switch (chatState) {
             case ADD_T_DATE -> {
                 try {
@@ -47,7 +47,7 @@ public class AddTariffMessageProcessor extends AbstractMessageProcessor {
                     } else {
                         tempTariffMap.get(chat).setDate(LocalDate.parse(text));
                     }
-                    chats.setState(chat, ChatState.ADD_T_ELECTRICITY);
+                    chatsManager.setState(chat, ChatState.ADD_T_ELECTRICITY);
                 } catch (DateTimeParseException exc) {
                     throw new MessageProcessingException("Неправильный формат даты!", exc);
                 }
@@ -62,7 +62,7 @@ public class AddTariffMessageProcessor extends AbstractMessageProcessor {
             case ADD_T_ELECTRICITY -> {
                 try {
                     tempTariffMap.get(chat).setElectricity(Double.valueOf(text));
-                    chats.setState(chat, ChatState.ADD_T_HW);
+                    chatsManager.setState(chat, ChatState.ADD_T_HW);
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
@@ -77,7 +77,7 @@ public class AddTariffMessageProcessor extends AbstractMessageProcessor {
             case ADD_T_HW -> {
                 try {
                     tempTariffMap.get(chat).setHotWater(Double.valueOf(text));
-                    chats.setState(chat, ChatState.ADD_T_CW);
+                    chatsManager.setState(chat, ChatState.ADD_T_CW);
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
@@ -92,7 +92,7 @@ public class AddTariffMessageProcessor extends AbstractMessageProcessor {
             case ADD_T_CW -> {
                 try {
                     tempTariffMap.get(chat).setColdWater(Double.valueOf(text));
-                    chats.setState(chat, ChatState.ADD_T_DRAINAGE);
+                    chatsManager.setState(chat, ChatState.ADD_T_DRAINAGE);
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);
                 }
@@ -107,7 +107,7 @@ public class AddTariffMessageProcessor extends AbstractMessageProcessor {
             case ADD_T_DRAINAGE -> {
                 try {
                     tempTariffMap.get(chat).setDrainage(Double.valueOf(text));
-                    chats.setState(chat, ChatState.MAIN);
+                    chatsManager.setState(chat, ChatState.MAIN);
                     dataManager.addTariff(tempTariffMap.get(chat));
                 } catch (NumberFormatException exc) {
                     throw new MessageProcessingException("Введено некорректное число!", exc);

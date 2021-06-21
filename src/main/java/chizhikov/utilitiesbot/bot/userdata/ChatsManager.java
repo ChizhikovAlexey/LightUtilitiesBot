@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component("Chats")
-public class Chats {
+public class ChatsManager {
     private final Map<String, ChatState> chatsMap;
 
-    public Chats() {
+    public ChatsManager() {
         chatsMap = new HashMap<>();
     }
 

@@ -8,11 +8,13 @@ import chizhikov.utilitiesbot.data.dao.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 
 import java.util.List;
 
 @Configuration
+@EnableScheduling
 @ComponentScan("chizhikov.utilitiesbot")
 public class Config {
     private final String JDBC_DATABASE_URL = System.getProperty("JDBC_DATABASE_URL");

@@ -5,6 +5,7 @@ import org.telegram.telegrambots.meta.api.objects.Chat;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @Component("Chats")
 public class ChatsManager {
@@ -24,5 +25,9 @@ public class ChatsManager {
 
     public void setState(Chat chat, ChatState state) {
         chatsMap.put(chat.getId().toString(), state);
+    }
+
+    public Set<String> getAllChatIds() {
+        return chatsMap.keySet();
     }
 }

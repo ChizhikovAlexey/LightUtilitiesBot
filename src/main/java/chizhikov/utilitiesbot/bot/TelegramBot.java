@@ -5,6 +5,7 @@ import chizhikov.utilitiesbot.bot.extensions.MessageExtension;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.ChatsManager;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -95,6 +96,19 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
             execute(message);
         } catch (TelegramApiException exception) {
             log.error("Error sending message to " + message.getChatId() + "!", exception);
+        }
+    }
+
+    @Scheduled(cron = "0 0 17 15 * ?")
+    private void remind() {
+        String reminding = "Не забудьте ввести показания счётчиков в этом месяце!";
+        for (String id: chatsManager.getAllChatIds()) {
+            sendMessage(
+                    SendMessage.builder().
+                            chatId(id).
+                            text(reminding).
+                            build()
+            );
         }
     }
 }

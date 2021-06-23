@@ -1,4 +1,4 @@
-package chizhikov.utilitiesbot.data.entities;
+package chizhikov.utilitiesbot.data.db.entities;
 
 import java.time.LocalDate;
 

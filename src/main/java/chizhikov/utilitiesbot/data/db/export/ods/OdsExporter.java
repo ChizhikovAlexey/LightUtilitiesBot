@@ -1,8 +1,8 @@
-package chizhikov.utilitiesbot.data.export.ods;
+package chizhikov.utilitiesbot.data.db.export.ods;
 
 import chizhikov.utilitiesbot.data.DataManager;
-import chizhikov.utilitiesbot.data.entities.MonthData;
-import chizhikov.utilitiesbot.data.entities.Tariff;
+import chizhikov.utilitiesbot.data.db.entities.MonthData;
+import chizhikov.utilitiesbot.data.db.entities.Tariff;
 import com.github.miachm.sods.Sheet;
 import com.github.miachm.sods.SpreadSheet;
 import lombok.extern.slf4j.Slf4j;

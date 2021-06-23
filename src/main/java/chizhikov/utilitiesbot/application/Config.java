@@ -4,7 +4,7 @@ import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.MessageHandler;
 import chizhikov.utilitiesbot.bot.TelegramBot;
 import chizhikov.utilitiesbot.bot.userdata.ChatsManager;
-import chizhikov.utilitiesbot.data.dao.*;
+import chizhikov.utilitiesbot.data.db.dao.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

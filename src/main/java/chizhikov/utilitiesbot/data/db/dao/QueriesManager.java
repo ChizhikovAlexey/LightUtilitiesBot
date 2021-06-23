@@ -1,7 +1,7 @@
-package chizhikov.utilitiesbot.data.dao;
+package chizhikov.utilitiesbot.data.db.dao;
 
-import chizhikov.utilitiesbot.data.entities.MonthData;
-import chizhikov.utilitiesbot.data.entities.Tariff;
+import chizhikov.utilitiesbot.data.db.entities.MonthData;
+import chizhikov.utilitiesbot.data.db.entities.Tariff;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.glassfish.grizzly.utils.Pair;

@@ -1,6 +1,6 @@
-package chizhikov.utilitiesbot.data.dao;
+package chizhikov.utilitiesbot.data.db.dao;
 
-import chizhikov.utilitiesbot.data.entities.MonthData;
+import chizhikov.utilitiesbot.data.db.entities.MonthData;
 import lombok.AllArgsConstructor;
 
 import java.sql.*;

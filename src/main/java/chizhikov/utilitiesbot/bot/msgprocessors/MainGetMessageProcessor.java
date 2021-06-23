@@ -6,7 +6,7 @@ import chizhikov.utilitiesbot.bot.extensions.MessageExtension;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.ChatsManager;
 import chizhikov.utilitiesbot.data.DataManager;
-import chizhikov.utilitiesbot.data.export.ods.OdsExporter;
+import chizhikov.utilitiesbot.data.db.export.ods.OdsExporter;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

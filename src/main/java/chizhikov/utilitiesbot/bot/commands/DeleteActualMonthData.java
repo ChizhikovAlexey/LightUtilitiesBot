@@ -4,7 +4,7 @@ import chizhikov.utilitiesbot.bot.KeyboardResolver;
 import chizhikov.utilitiesbot.bot.userdata.ChatState;
 import chizhikov.utilitiesbot.bot.userdata.ChatsManager;
 import chizhikov.utilitiesbot.data.DataManager;
-import chizhikov.utilitiesbot.data.entities.MonthData;
+import chizhikov.utilitiesbot.data.db.entities.MonthData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

@@ -1,11 +1,11 @@
 package chizhikov.utilitiesbot.data;
 
-import chizhikov.utilitiesbot.data.dao.MonthDataDao;
-import chizhikov.utilitiesbot.data.dao.QueriesManager;
-import chizhikov.utilitiesbot.data.dao.TariffDao;
-import chizhikov.utilitiesbot.data.entities.MonthData;
-import chizhikov.utilitiesbot.data.entities.Report;
-import chizhikov.utilitiesbot.data.entities.Tariff;
+import chizhikov.utilitiesbot.data.db.dao.MonthDataDao;
+import chizhikov.utilitiesbot.data.db.dao.QueriesManager;
+import chizhikov.utilitiesbot.data.db.dao.TariffDao;
+import chizhikov.utilitiesbot.data.db.entities.MonthData;
+import chizhikov.utilitiesbot.data.db.entities.Report;
+import chizhikov.utilitiesbot.data.db.entities.Tariff;
 import org.glassfish.grizzly.utils.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
